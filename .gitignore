@@ -1,0 +1,51 @@
+# Xcode
+*.xcuserdata/
+*.xccheckout
+*.xcscmblueprint
+*.xcworkspace
+DerivedData/
+build/
+*.moved-aside
+*.xcuserstate
+*.xcassets/Assets.car
+
+# SwiftPM
+.build/
+Package.resolved
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/
+Carthage/Build/
+
+# SwiftPM binary artifacts
+.artifacts/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Archives
+*.xcarchive
+
+# Misc
+.DS_Store
+*.swp
+*.orig
+*.env
+
+# Playground
+timeline.xctimeline
+playground.xcworkspace/
+
+# AppCode
+.idea/
+*.iml
+
+# Xcode Preview support
+*.icloud

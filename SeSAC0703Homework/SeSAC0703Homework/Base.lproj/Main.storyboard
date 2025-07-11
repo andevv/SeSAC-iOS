@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SeSAC0703Homework" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3R5-Cu-UXG">
+                                <rect key="frame" x="35" y="97" width="275" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tSd-ic-OZs">
+                                <rect key="frame" x="310" y="97" width="48" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="magnifyingglass" catalog="system"/>
+                                <connections>
+                                    <action selector="keyBoardDismiss:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pui-tA-bpp"/>
+                                    <action selector="searchBtnClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FeX-dR-gLr"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="9Ww-3b-4YT">
+                                <rect key="frame" x="0.0" y="313" width="393" height="226"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CgB-pt-qCu">
+                                <rect key="frame" x="59" y="387" width="275" height="78"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="54J-gV-BPt">
+                                <rect key="frame" x="35" y="135" width="50" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="keyBoardDismiss:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ynq-ud-Xeq"/>
+                                    <action selector="tagBtnClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bAg-HK-oq0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gH7-XB-8yt">
+                                <rect key="frame" x="89" y="135" width="50" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="keyBoardDismiss:" destination="BYZ-38-t0r" eventType="touchUpInside" id="but-oX-A7l"/>
+                                    <action selector="tagBtnClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mMy-cn-pAS"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S7s-M7-Lqn">
+                                <rect key="frame" x="143" y="135" width="50" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="keyBoardDismiss:" destination="BYZ-38-t0r" eventType="touchUpInside" id="brO-Ct-Rww"/>
+                                    <action selector="tagBtnClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JIE-Aj-3qO"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vOC-Qa-sL1">
+                                <rect key="frame" x="197" y="135" width="50" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="keyBoardDismiss:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WMg-AG-8PL"/>
+                                    <action selector="tagBtnClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6zQ-jb-oQd"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="Q9w-u4-A7z" appends="YES" id="G4X-hA-908"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="btn1" destination="54J-gV-BPt" id="Hpv-AE-zY4"/>
+                        <outlet property="btn2" destination="gH7-XB-8yt" id="hMm-p6-5xm"/>
+                        <outlet property="btn3" destination="S7s-M7-Lqn" id="cIM-IH-XtO"/>
+                        <outlet property="btn4" destination="vOC-Qa-sL1" id="htl-8H-Hod"/>
+                        <outlet property="resultLabel" destination="CgB-pt-qCu" id="vw9-32-Vls"/>
+                        <outlet property="searchBtn" destination="tSd-ic-OZs" id="Ljl-Q4-Qtl"/>
+                        <outlet property="searchTextField" destination="3R5-Cu-UXG" id="xaE-dj-GUs"/>
+                        <outletCollection property="tagBtns" destination="54J-gV-BPt" collectionClass="NSMutableArray" id="5Gy-Sh-tbB"/>
+                        <outletCollection property="tagBtns" destination="gH7-XB-8yt" collectionClass="NSMutableArray" id="rLY-GN-YCL"/>
+                        <outletCollection property="tagBtns" destination="S7s-M7-Lqn" collectionClass="NSMutableArray" id="u2P-Tk-vXe"/>
+                        <outletCollection property="tagBtns" destination="vOC-Qa-sL1" collectionClass="NSMutableArray" id="pYd-59-Nlg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Q9w-u4-A7z">
+                    <connections>
+                        <action selector="keyBoardDismiss:" destination="BYZ-38-t0r" id="ozc-m1-2Cd"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="78.625954198473281" y="-27.464788732394368"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="background" width="300" height="300"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="117"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
