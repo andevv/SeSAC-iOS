@@ -104,17 +104,83 @@
             </objects>
             <point key="canvasLocation" x="2852.6717557251909" y="-27.464788732394368"/>
         </scene>
+        <!--Game View Controller-->
+        <scene sceneID="yzS-Kd-7mj">
+            <objects>
+                <viewController id="GCl-W0-nYL" customClass="GameViewController" customModule="SeSAC0711Homework" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wjS-tX-OLY">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="최대 숫자를 입력해주세요" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zGW-pj-CQa">
+                                <rect key="frame" x="36" y="162" width="321" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="l8E-3y-PSt"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6A2-WM-VaN">
+                                <rect key="frame" x="16" y="246" width="361" height="200"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="K74-TH-JWh"/>
+                                </constraints>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1i-wd-Bix">
+                                <rect key="frame" x="24" y="486" width="345" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="s2i-ln-wMC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="jx7-bM-nbk"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="j1i-wd-Bix" firstAttribute="leading" secondItem="jx7-bM-nbk" secondAttribute="leading" constant="24" id="6ya-fZ-dQ2"/>
+                            <constraint firstItem="jx7-bM-nbk" firstAttribute="trailing" secondItem="j1i-wd-Bix" secondAttribute="trailing" constant="24" id="A1a-PS-608"/>
+                            <constraint firstItem="6A2-WM-VaN" firstAttribute="top" secondItem="zGW-pj-CQa" secondAttribute="bottom" constant="40" id="D5r-jP-5jv"/>
+                            <constraint firstItem="jx7-bM-nbk" firstAttribute="trailing" secondItem="zGW-pj-CQa" secondAttribute="trailing" constant="36" id="E45-oh-bWx"/>
+                            <constraint firstItem="zGW-pj-CQa" firstAttribute="centerX" secondItem="wjS-tX-OLY" secondAttribute="centerX" id="FCr-7b-9TU"/>
+                            <constraint firstItem="j1i-wd-Bix" firstAttribute="centerX" secondItem="wjS-tX-OLY" secondAttribute="centerX" id="T7c-DW-fTh"/>
+                            <constraint firstItem="j1i-wd-Bix" firstAttribute="top" secondItem="6A2-WM-VaN" secondAttribute="bottom" constant="40" id="Waq-R5-2We"/>
+                            <constraint firstItem="zGW-pj-CQa" firstAttribute="top" secondItem="jx7-bM-nbk" secondAttribute="top" id="aR7-DP-FKZ"/>
+                            <constraint firstItem="6A2-WM-VaN" firstAttribute="leading" secondItem="jx7-bM-nbk" secondAttribute="leading" constant="16" id="cVg-qw-sDP"/>
+                            <constraint firstItem="6A2-WM-VaN" firstAttribute="centerX" secondItem="wjS-tX-OLY" secondAttribute="centerX" id="kRN-sX-vTC"/>
+                            <constraint firstItem="zGW-pj-CQa" firstAttribute="leading" secondItem="jx7-bM-nbk" secondAttribute="leading" constant="36" id="skF-Nz-hdH"/>
+                            <constraint firstItem="jx7-bM-nbk" firstAttribute="trailing" secondItem="6A2-WM-VaN" secondAttribute="trailing" constant="16" id="uUW-hY-fOc"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="MK4-2G-nPC"/>
+                    <connections>
+                        <outlet property="clapCountLabel" destination="j1i-wd-Bix" id="mcR-Qk-bbG"/>
+                        <outlet property="numberTextField" destination="zGW-pj-CQa" id="gER-n6-U3P"/>
+                        <outlet property="resultTextView" destination="6A2-WM-VaN" id="hGL-Xs-gzS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fyV-uA-Wrt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2852.6717557251909" y="710.56338028169023"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ZSJ-XN-ohg">
             <objects>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="O3z-xN-5wb" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="0tq-zf-qLn">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
                         <segue destination="F0D-V6-pB2" kind="relationship" relationship="viewControllers" id="VLv-Um-dBH"/>
+                        <segue destination="JPi-9m-Fwd" kind="relationship" relationship="viewControllers" id="Ius-yo-qaQ"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RzC-Hd-r63" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -140,9 +206,29 @@
             </objects>
             <point key="canvasLocation" x="1925.9541984732823" y="-27.464788732394368"/>
         </scene>
+        <!--369 게임-->
+        <scene sceneID="81h-dN-Ibd">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="JPi-9m-Fwd" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="369 게임" image="gamecontroller.fill" catalog="system" id="vza-Nh-SD8"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Cgm-RU-pDV">
+                        <rect key="frame" x="0.0" y="118" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="GCl-W0-nYL" kind="relationship" relationship="rootViewController" id="uxd-8b-Zwa"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kfX-Sf-o79" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1926" y="711"/>
+        </scene>
     </scenes>
     <resources>
         <image name="airplane.departure" catalog="system" width="128" height="84"/>
+        <image name="gamecontroller.fill" catalog="system" width="128" height="79"/>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
