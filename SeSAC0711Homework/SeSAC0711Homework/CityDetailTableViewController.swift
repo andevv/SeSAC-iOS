@@ -59,7 +59,16 @@ class CityDetailTableViewController: UITableViewController {
         
         // Kingfisher 이미지 로딩
         if let urlStr = travel.travel_image, let url = URL(string: urlStr) {
-            cell.placeImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "photo"))
+            
+            //다운샘플링
+            let processor = DownsamplingImageProcessor(size: cell.placeImageView.bounds.size)
+            
+            cell.placeImageView.kf.setImage(with: url, placeholder: UIImage(systemName: "photo"), options: [
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(0.2)),
+                .cacheOriginalImage
+            ])
         } else {
             cell.placeImageView.image = UIImage(systemName: "photo")
         }
@@ -90,9 +99,21 @@ class CityDetailTableViewController: UITableViewController {
     }
         
     
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 120
-//    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let travel = travelList[indexPath.row]
+        
+        if travel.ad {
+            //광고 화면 present
+            let vc = AdPresentViewController()
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
+        } else {
+            //관광지 화면 push
+            let vc = TravelModalViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+
     
 
 
