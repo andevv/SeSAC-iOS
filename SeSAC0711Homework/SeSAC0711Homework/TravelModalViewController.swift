@@ -10,7 +10,10 @@ import Kingfisher
 
 class TravelModalViewController: UIViewController {
     
+    var travel: Travel? //전달 받을 값
     let imageView = UIImageView()
+    let titleLabel = UILabel()
+    let subtitleLabel = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +21,7 @@ class TravelModalViewController: UIViewController {
         view.backgroundColor = .white
         
         setupUI()
-        loadImage()
+        configureContent()
     }
 
     func setupUI() {
@@ -27,16 +30,15 @@ class TravelModalViewController: UIViewController {
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let titleLabel = UILabel()
-        titleLabel.text = "카오산 로드"
+        //titleLabel.text = "카오산 로드"
         titleLabel.font = .boldSystemFont(ofSize: 24)
         titleLabel.textAlignment = .center
 
-        let subtitleLabel = UILabel()
-        subtitleLabel.text = "낮과 밤 서로 다른 매력을 지닌 변화한 거리"
+        //subtitleLabel.text = "낮과 밤 서로 다른 매력을 지닌 변화한 거리"
         subtitleLabel.textAlignment = .center
         subtitleLabel.textColor = .darkGray
         subtitleLabel.font = .systemFont(ofSize: 16)
+        subtitleLabel.numberOfLines = 0
 
         let button = UIButton(type: .system)
         button.setTitle("다른 관광지 보러 가기", for: .normal)
@@ -62,15 +64,17 @@ class TravelModalViewController: UIViewController {
         ])
     }
     
-    //Kingfisher로 이미지 로드
-    func loadImage() {
-        // 이미지 URL
-        let testURLString = "https://images.unsplash.com/photo-1539498508910-091b5e859b1d?q=80&w=3250&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        if let url = URL(string: testURLString) {
+    func configureContent() {
+        guard let travel = travel else { return }
+
+        if let urlStr = travel.travel_image, let url = URL(string: urlStr) {
             imageView.kf.setImage(with: url)
         } else {
-            print("URL 생성 실패")
+            imageView.image = UIImage(systemName: "photo")
         }
+
+        titleLabel.text = travel.title
+        subtitleLabel.text = travel.description ?? ""
     }
 
     @objc func popView() {

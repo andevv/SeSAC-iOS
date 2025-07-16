@@ -9,6 +9,7 @@ import UIKit
 
 class AdPresentViewController: UIViewController {
     
+    var adMessage: String? //전달 받을 값
     let dismissButton = UIButton()
 
     override func viewDidLoad() {
@@ -28,7 +29,7 @@ class AdPresentViewController: UIViewController {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
         let messageLabel = UILabel()
-        messageLabel.text = "도쿄 여행 예약은?\n수업이 있는데 가실 생각은 아니시죠?"
+        messageLabel.text = adMessage ?? "광고 문구가 없습니다." //값 사용
         messageLabel.textAlignment = .center
         messageLabel.numberOfLines = 0
         messageLabel.font = .systemFont(ofSize: 18)

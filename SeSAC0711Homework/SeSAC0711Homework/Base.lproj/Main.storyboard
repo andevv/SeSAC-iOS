@@ -293,6 +293,7 @@
                         <segue destination="F0D-V6-pB2" kind="relationship" relationship="viewControllers" id="VLv-Um-dBH"/>
                         <segue destination="JPi-9m-Fwd" kind="relationship" relationship="viewControllers" id="Ius-yo-qaQ"/>
                         <segue destination="ta6-bF-sXn" kind="relationship" relationship="viewControllers" id="CI1-yx-vwd"/>
+                        <segue destination="ncH-Yy-Q9d" kind="relationship" relationship="viewControllers" id="pnw-wz-GTe"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RzC-Hd-r63" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -356,12 +357,61 @@
             </objects>
             <point key="canvasLocation" x="1926" y="1456"/>
         </scene>
+        <!--인기 도시-->
+        <scene sceneID="mhJ-cv-BFO">
+            <objects>
+                <tableViewController id="H8J-4m-d0f" customClass="FamousCityTableViewController" customModule="SeSAC0711Homework" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="cNA-E7-FHG">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Qd8-g7-vya">
+                                <rect key="frame" x="0.0" y="50" width="393" height="44.666667938232422"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Qd8-g7-vya" id="Iqf-hd-6hM">
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="44.666667938232422"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="H8J-4m-d0f" id="dJ8-Sm-siK"/>
+                            <outlet property="delegate" destination="H8J-4m-d0f" id="VPl-k4-CwB"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="인기 도시" id="hUi-Jh-UDA"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hDa-vN-QIR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2853" y="2541"/>
+        </scene>
+        <!--인기 도시-->
+        <scene sceneID="6gZ-Xc-tQH">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ncH-Yy-Q9d" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="인기 도시" image="medal.star.fill" catalog="system" id="Gbw-Ae-3yG"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ifj-GC-tG0">
+                        <rect key="frame" x="0.0" y="118" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="H8J-4m-d0f" kind="relationship" relationship="rootViewController" id="qGx-kB-Bso"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mcH-JT-HCo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1926" y="2541"/>
+        </scene>
     </scenes>
     <resources>
         <image name="airplane.departure" catalog="system" width="128" height="84"/>
         <image name="building.2.fill" catalog="system" width="108" height="128"/>
         <image name="gamecontroller.fill" catalog="system" width="128" height="79"/>
         <image name="heart" catalog="system" width="128" height="107"/>
+        <image name="medal.star.fill" catalog="system" width="92" height="128"/>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

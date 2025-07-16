@@ -105,16 +105,14 @@ class CityDetailTableViewController: UITableViewController {
         if travel.ad {
             //광고 화면 present
             let vc = AdPresentViewController()
+            vc.adMessage = travel.title
             vc.modalPresentationStyle = .fullScreen
             present(vc, animated: true)
         } else {
             //관광지 화면 push
             let vc = TravelModalViewController()
+            vc.travel = travel // 값 전달
             navigationController?.pushViewController(vc, animated: true)
         }
     }
-
-    
-
-
 }
