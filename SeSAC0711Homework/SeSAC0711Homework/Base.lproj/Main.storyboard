@@ -5,6 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -294,6 +295,7 @@
                         <segue destination="JPi-9m-Fwd" kind="relationship" relationship="viewControllers" id="Ius-yo-qaQ"/>
                         <segue destination="ta6-bF-sXn" kind="relationship" relationship="viewControllers" id="CI1-yx-vwd"/>
                         <segue destination="ncH-Yy-Q9d" kind="relationship" relationship="viewControllers" id="pnw-wz-GTe"/>
+                        <segue destination="dT4-4g-kEp" kind="relationship" relationship="viewControllers" id="CTA-Kx-NGg"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RzC-Hd-r63" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -422,6 +424,79 @@
             </objects>
             <point key="canvasLocation" x="2767" y="2541"/>
         </scene>
+        <!--인기 도시2-->
+        <scene sceneID="cOy-dD-EMa">
+            <objects>
+                <viewController storyboardIdentifier="SecondFamousViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="QqR-92-uBt" customClass="SecondFamousViewController" customModule="SeSAC0711Homework" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1G5-Lb-dms">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="aNM-n0-F6G">
+                                <rect key="frame" x="0.0" y="162" width="393" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="RNm-e2-EZ5"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="QqR-92-uBt" id="TJD-qK-Uef"/>
+                                </connections>
+                            </searchBar>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="kQ9-4W-AHI">
+                                <rect key="frame" x="16" y="222" width="361" height="32"/>
+                                <segments>
+                                    <segment title="모두"/>
+                                    <segment title="국내"/>
+                                    <segment title="해외"/>
+                                </segments>
+                            </segmentedControl>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WVz-ug-haL">
+                                <rect key="frame" x="0.0" y="253" width="393" height="482"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="apf-Og-v6C">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="63w-Cz-htO">
+                                        <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="4KP-JY-aDF">
+                                            <rect key="frame" x="0.0" y="0.0" width="127.99999999999997" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="cXn-IB-tHY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="WVz-ug-haL" firstAttribute="top" secondItem="kQ9-4W-AHI" secondAttribute="bottom" id="1bA-YW-k6c"/>
+                            <constraint firstItem="WVz-ug-haL" firstAttribute="leading" secondItem="cXn-IB-tHY" secondAttribute="leading" id="Fco-wO-RT4"/>
+                            <constraint firstItem="kQ9-4W-AHI" firstAttribute="top" secondItem="aNM-n0-F6G" secondAttribute="bottom" constant="16" id="LEh-2k-zTv"/>
+                            <constraint firstItem="aNM-n0-F6G" firstAttribute="top" secondItem="cXn-IB-tHY" secondAttribute="top" id="NrR-SQ-bCt"/>
+                            <constraint firstItem="kQ9-4W-AHI" firstAttribute="leading" secondItem="cXn-IB-tHY" secondAttribute="leading" constant="16" id="Thf-H8-M4N"/>
+                            <constraint firstItem="aNM-n0-F6G" firstAttribute="leading" secondItem="cXn-IB-tHY" secondAttribute="leading" id="a8Z-Oh-nGk"/>
+                            <constraint firstItem="cXn-IB-tHY" firstAttribute="trailing" secondItem="WVz-ug-haL" secondAttribute="trailing" id="iba-BW-5pt"/>
+                            <constraint firstItem="aNM-n0-F6G" firstAttribute="trailing" secondItem="cXn-IB-tHY" secondAttribute="trailing" id="pAb-Ce-aep"/>
+                            <constraint firstItem="cXn-IB-tHY" firstAttribute="bottom" secondItem="WVz-ug-haL" secondAttribute="bottom" id="shh-me-skS"/>
+                            <constraint firstItem="cXn-IB-tHY" firstAttribute="trailing" secondItem="kQ9-4W-AHI" secondAttribute="trailing" constant="16" id="tZZ-Mc-zAu"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="인기 도시2" id="g6L-xK-Nrj"/>
+                    <connections>
+                        <outlet property="myCollectionView" destination="WVz-ug-haL" id="9HS-Fl-o8F"/>
+                        <outlet property="mySearchBar" destination="aNM-n0-F6G" id="6Uy-Wk-S4x"/>
+                        <outlet property="mySegmentedControl" destination="kQ9-4W-AHI" id="Hga-Zs-7hN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b0j-gc-6ZF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2766" y="3299"/>
+        </scene>
         <!--Famous City Detail View Controller-->
         <scene sceneID="pa3-xL-aRd">
             <objects>
@@ -460,6 +535,25 @@
             </objects>
             <point key="canvasLocation" x="3545.801526717557" y="2540.1408450704225"/>
         </scene>
+        <!--인기 도시2-->
+        <scene sceneID="BLz-86-P7c">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dT4-4g-kEp" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="인기 도시2" image="star.square.on.square.fill" catalog="system" id="Ytn-Z9-QA1"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="B4i-a0-wIO">
+                        <rect key="frame" x="0.0" y="118" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="QqR-92-uBt" kind="relationship" relationship="rootViewController" id="ALg-4N-cDC"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ken-IT-NNH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1926" y="3299"/>
+        </scene>
     </scenes>
     <resources>
         <image name="airplane.departure" catalog="system" width="128" height="84"/>
@@ -467,6 +561,7 @@
         <image name="gamecontroller.fill" catalog="system" width="128" height="79"/>
         <image name="heart" catalog="system" width="128" height="107"/>
         <image name="medal.star.fill" catalog="system" width="92" height="128"/>
+        <image name="star.square.on.square.fill" catalog="system" width="128" height="120"/>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
