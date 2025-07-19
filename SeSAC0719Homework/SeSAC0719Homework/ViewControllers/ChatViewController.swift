@@ -15,9 +15,11 @@ class ChatViewController: UIViewController {
     
     var chatRoom: ChatRoom!
     
-    let chatTableViewCellIdentifier = "ChatTableViewCell"
-    let MyChatTableViewCellIdentifier = "MyChatTableViewCell"
-
+    enum Identifier {
+        static let chatTableViewCell = "ChatTableViewCell"
+        static let MyChatTableViewCell = "MyChatTableViewCell"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,8 +36,8 @@ class ChatViewController: UIViewController {
         myTableView.delegate = self
         myTableView.separatorStyle = .none
         
-        myTableView.register(UINib(nibName: chatTableViewCellIdentifier, bundle: nil), forCellReuseIdentifier: chatTableViewCellIdentifier)
-        myTableView.register(UINib(nibName: MyChatTableViewCellIdentifier, bundle: nil), forCellReuseIdentifier: MyChatTableViewCellIdentifier)
+        myTableView.register(UINib(nibName: Identifier.chatTableViewCell, bundle: nil), forCellReuseIdentifier: Identifier.chatTableViewCell)
+        myTableView.register(UINib(nibName: Identifier.MyChatTableViewCell, bundle: nil), forCellReuseIdentifier: Identifier.MyChatTableViewCell)
     }
     
     private func configureMessageTextField() {
@@ -61,11 +63,11 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
         let chat = chatRoom.chatList[indexPath.row]
         
         if chat.user.name == ChatList.me.name {
-            let cell = tableView.dequeueReusableCell(withIdentifier: MyChatTableViewCellIdentifier, for: indexPath) as! MyChatTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: Identifier.MyChatTableViewCell, for: indexPath) as! MyChatTableViewCell
             cell.configure(with: chat)
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: chatTableViewCellIdentifier, for: indexPath) as! ChatTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: Identifier.chatTableViewCell, for: indexPath) as! ChatTableViewCell
             cell.configure(with: chat)
             return cell
         }
