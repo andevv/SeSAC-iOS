@@ -45,22 +45,22 @@ class TravelTalkCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Design
     
-    func configureProfileImageView() {
+    private func configureProfileImageView() {
         profileImageView.contentMode = .scaleAspectFit
         profileImageView.clipsToBounds = true
         profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
     }
     
-    func configureNameLabel() {
+    private func configureNameLabel() {
         nameLabel.font = .boldSystemFont(ofSize: 15)
     }
     
-    func configureLastMessageLabel() {
+    private func configureLastMessageLabel() {
         lastMessageLabel.font = .systemFont(ofSize: 12)
         lastMessageLabel.textColor = .darkGray
     }
     
-    func configureDateLabel() {
+    private func configureDateLabel() {
         dateLabel.font = .systemFont(ofSize: 12)
         dateLabel.textColor = .lightGray
     }

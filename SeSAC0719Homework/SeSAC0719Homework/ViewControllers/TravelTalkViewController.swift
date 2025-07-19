@@ -15,6 +15,9 @@ class TravelTalkViewController: UIViewController {
     var chatRooms = ChatList.list
     var filteredRooms: [ChatRoom] = []
     
+    let TravelTalkCollectionViewCellIdentifier = "TravelTalkCollectionViewCell"
+    let ChatViewControllerIdntifier = "ChatViewController"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,15 +28,15 @@ class TravelTalkViewController: UIViewController {
         configureSearchBar()
     }
     
-    func configureCollectionView() {
+    private func configureCollectionView() {
         myCollectionView.dataSource = self
         myCollectionView.delegate = self
         
-        let nib = UINib(nibName: "TravelTalkCollectionViewCell", bundle: nil)
-        myCollectionView.register(nib, forCellWithReuseIdentifier: "TravelTalkCollectionViewCell")
+        let nib = UINib(nibName: TravelTalkCollectionViewCellIdentifier, bundle: nil)
+        myCollectionView.register(nib, forCellWithReuseIdentifier: TravelTalkCollectionViewCellIdentifier)
     }
     
-    func configureSearchBar() {
+    private func configureSearchBar() {
         mySearchBar.delegate = self
         mySearchBar.placeholder = "친구 이름을 검색해보세요"
     }
@@ -48,7 +51,7 @@ extension TravelTalkViewController: UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = myCollectionView.dequeueReusableCell(withReuseIdentifier: "TravelTalkCollectionViewCell", for: indexPath) as! TravelTalkCollectionViewCell
+        let cell = myCollectionView.dequeueReusableCell(withReuseIdentifier: TravelTalkCollectionViewCellIdentifier, for: indexPath) as! TravelTalkCollectionViewCell
         
         let room = filteredRooms[indexPath.item]
         cell.configure(with: room)
@@ -57,7 +60,7 @@ extension TravelTalkViewController: UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let sb = UIStoryboard(name: "Main", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "ChatViewController") as! ChatViewController
+        let vc = sb.instantiateViewController(withIdentifier: ChatViewControllerIdntifier) as! ChatViewController
         vc.chatRoom = filteredRooms[indexPath.item]
         navigationController?.pushViewController(vc, animated: true)
     }

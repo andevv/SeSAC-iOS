@@ -83,18 +83,37 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="B1X-q9-acn">
+                                <rect key="frame" x="0.0" y="118" width="393" height="622"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z8q-T4-FLW">
+                                <rect key="frame" x="322" y="744" width="51" height="36"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="paperplane" catalog="system"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Cis-7F-y5O"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="z8q-T4-FLW" firstAttribute="centerY" secondItem="lyB-7D-0Oq" secondAttribute="centerY" id="7ff-xQ-7al"/>
+                            <constraint firstItem="B1X-q9-acn" firstAttribute="leading" secondItem="Cis-7F-y5O" secondAttribute="leading" id="D7L-fy-Lhp"/>
                             <constraint firstItem="lyB-7D-0Oq" firstAttribute="centerX" secondItem="2XR-lx-MLm" secondAttribute="centerX" id="Dwa-te-LKg"/>
+                            <constraint firstItem="Cis-7F-y5O" firstAttribute="trailing" secondItem="B1X-q9-acn" secondAttribute="trailing" id="FFv-9X-9kJ"/>
                             <constraint firstItem="lyB-7D-0Oq" firstAttribute="leading" secondItem="Cis-7F-y5O" secondAttribute="leading" constant="16" id="KEZ-AN-5v6"/>
                             <constraint firstItem="Cis-7F-y5O" firstAttribute="trailing" secondItem="lyB-7D-0Oq" secondAttribute="trailing" constant="16" id="OkH-Nr-qWh"/>
+                            <constraint firstItem="lyB-7D-0Oq" firstAttribute="top" secondItem="B1X-q9-acn" secondAttribute="bottom" id="XLr-wl-raR"/>
+                            <constraint firstItem="Cis-7F-y5O" firstAttribute="trailing" secondItem="z8q-T4-FLW" secondAttribute="trailing" constant="20" id="cQA-EF-xyE"/>
+                            <constraint firstItem="Cis-7F-y5O" firstAttribute="bottom" secondItem="z8q-T4-FLW" secondAttribute="bottom" constant="4" id="ca4-a5-gkB"/>
                             <constraint firstItem="lyB-7D-0Oq" firstAttribute="bottom" secondItem="Cis-7F-y5O" secondAttribute="bottom" id="kCd-fe-d5E"/>
+                            <constraint firstItem="B1X-q9-acn" firstAttribute="top" secondItem="Cis-7F-y5O" secondAttribute="top" id="o2U-qg-dyk"/>
+                            <constraint firstItem="z8q-T4-FLW" firstAttribute="top" secondItem="B1X-q9-acn" secondAttribute="bottom" constant="4" id="sCF-HT-1Db"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="messageTextField" destination="lyB-7D-0Oq" id="ea0-vS-GCc"/>
+                        <outlet property="myTableView" destination="B1X-q9-acn" id="0SM-xZ-TlU"/>
+                        <outlet property="sendButton" destination="z8q-T4-FLW" id="ZtY-US-H5U"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nWu-om-xed" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -121,6 +140,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="paperplane" catalog="system" width="128" height="119"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
