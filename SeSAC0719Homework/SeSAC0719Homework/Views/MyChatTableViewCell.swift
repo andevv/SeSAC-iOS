@@ -10,15 +10,17 @@ import UIKit
 class MyChatTableViewCell: UITableViewCell {
     
     @IBOutlet var messageLabel: UILabel!
+    @IBOutlet var timeLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         configureMessageLabel()
+        configureTimeLabel()
     }
 
-    
     func configure(with chat: Chat) {
         messageLabel.text = chat.message
+        timeLabel.text = DateFormatter.timeFormat(from: chat.date)
     }
     
     private func configureMessageLabel() {
@@ -29,7 +31,11 @@ class MyChatTableViewCell: UITableViewCell {
         messageLabel.layer.cornerRadius = 10
         messageLabel.clipsToBounds = true
         messageLabel.backgroundColor = .systemGray5
-        
+    }
+    
+    private func configureTimeLabel() {
+        timeLabel.font = .systemFont(ofSize: 10)
+        timeLabel.textColor = .lightGray
     }
     
 }

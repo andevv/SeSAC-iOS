@@ -12,6 +12,8 @@ class ChatTableViewCell: UITableViewCell {
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var messageLabel: UILabel!
+    @IBOutlet var timeLabel: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -19,6 +21,7 @@ class ChatTableViewCell: UITableViewCell {
         configureProfileImageView()
         configureNameLabel()
         configureMessageLabel()
+        configureTimeLabel()
         
         
     }
@@ -27,7 +30,11 @@ class ChatTableViewCell: UITableViewCell {
         profileImageView.image = UIImage(named: chat.user.image)
         nameLabel.text = chat.user.name
         messageLabel.text = chat.message
+        timeLabel.text = DateFormatter.timeFormat(from: chat.date)
     }
+    
+
+
     
     private func configureProfileImageView() {
         profileImageView.contentMode = .scaleAspectFit
@@ -46,6 +53,11 @@ class ChatTableViewCell: UITableViewCell {
         messageLabel.layer.borderColor = UIColor.darkGray.cgColor
         messageLabel.layer.cornerRadius = 10
         messageLabel.clipsToBounds = true
+    }
+    
+    private func configureTimeLabel() {
+        timeLabel.font = .systemFont(ofSize: 10)
+        timeLabel.textColor = .lightGray
     }
     
 }

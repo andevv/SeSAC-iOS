@@ -22,17 +22,26 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YO4-Eg-4fA">
+                        <rect key="frame" x="234.66666666666666" y="55" width="41.999999999999972" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="ger-Dt-2Vf" secondAttribute="trailing" constant="24" id="6lb-ej-nUJ"/>
+                    <constraint firstItem="ger-Dt-2Vf" firstAttribute="leading" secondItem="YO4-Eg-4fA" secondAttribute="trailing" constant="8" id="NVp-05-hzp"/>
                     <constraint firstAttribute="bottom" secondItem="ger-Dt-2Vf" secondAttribute="bottom" constant="24" id="QJf-RG-sGU"/>
                     <constraint firstItem="ger-Dt-2Vf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="24" id="ap6-iG-Xx1"/>
+                    <constraint firstAttribute="bottom" secondItem="YO4-Eg-4fA" secondAttribute="bottom" constant="24" id="eXj-ZH-Dpz"/>
                     <constraint firstItem="ger-Dt-2Vf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="50" id="oFm-CO-96i"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="messageLabel" destination="ger-Dt-2Vf" id="oaG-Gl-CVx"/>
+                <outlet property="timeLabel" destination="YO4-Eg-4fA" id="uX7-E8-CRs"/>
             </connections>
             <point key="canvasLocation" x="56.488549618320612" y="-11.267605633802818"/>
         </tableViewCell>

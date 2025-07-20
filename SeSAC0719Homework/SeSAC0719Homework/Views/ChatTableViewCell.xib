@@ -38,6 +38,12 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RwP-9r-HmY">
+                        <rect key="frame" x="123.33333333333331" y="67" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="fEv-Kl-m4m" firstAttribute="leading" secondItem="Zw5-DW-6hX" secondAttribute="trailing" constant="12" id="5CE-Yy-0Uz"/>
@@ -47,7 +53,9 @@
                     <constraint firstItem="fEv-Kl-m4m" firstAttribute="top" secondItem="pln-3I-1dS" secondAttribute="bottom" constant="12" id="ciV-cB-lhL"/>
                     <constraint firstItem="Zw5-DW-6hX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="e5U-2A-nDH"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="fEv-Kl-m4m" secondAttribute="trailing" constant="50" id="gIJ-FN-Xog"/>
+                    <constraint firstItem="RwP-9r-HmY" firstAttribute="leading" secondItem="fEv-Kl-m4m" secondAttribute="trailing" constant="8" id="geJ-WW-cba"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="pln-3I-1dS" secondAttribute="trailing" constant="12" id="lSj-z9-e7o"/>
+                    <constraint firstAttribute="bottom" secondItem="RwP-9r-HmY" secondAttribute="bottom" constant="12" id="t2S-RD-POf"/>
                     <constraint firstAttribute="bottom" secondItem="fEv-Kl-m4m" secondAttribute="bottom" constant="12" id="uK4-4G-tz9"/>
                 </constraints>
             </tableViewCellContentView>
@@ -56,6 +64,7 @@
                 <outlet property="messageLabel" destination="fEv-Kl-m4m" id="1Qx-Ti-VOp"/>
                 <outlet property="nameLabel" destination="pln-3I-1dS" id="Tbv-QV-k73"/>
                 <outlet property="profileImageView" destination="Zw5-DW-6hX" id="Xo3-OJ-ItJ"/>
+                <outlet property="timeLabel" destination="RwP-9r-HmY" id="iCX-KD-8HD"/>
             </connections>
             <point key="canvasLocation" x="56.488549618320612" y="2.4647887323943665"/>
         </tableViewCell>
