@@ -24,13 +24,13 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pln-3I-1dS">
-                        <rect key="frame" x="74" y="12" width="264" height="20"/>
+                        <rect key="frame" x="74" y="12" width="41.333333333333343" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fEv-Kl-m4m">
-                        <rect key="frame" x="74" y="44" width="226" height="44"/>
+                        <rect key="frame" x="74" y="44" width="41.333333333333343" height="44"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="44" id="PJ2-4H-4eH"/>
                         </constraints>
@@ -46,8 +46,8 @@
                     <constraint firstItem="Zw5-DW-6hX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="WpX-jK-Luj"/>
                     <constraint firstItem="fEv-Kl-m4m" firstAttribute="top" secondItem="pln-3I-1dS" secondAttribute="bottom" constant="12" id="ciV-cB-lhL"/>
                     <constraint firstItem="Zw5-DW-6hX" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="e5U-2A-nDH"/>
-                    <constraint firstAttribute="trailing" secondItem="fEv-Kl-m4m" secondAttribute="trailing" constant="50" id="gIJ-FN-Xog"/>
-                    <constraint firstAttribute="trailing" secondItem="pln-3I-1dS" secondAttribute="trailing" constant="12" id="lSj-z9-e7o"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="fEv-Kl-m4m" secondAttribute="trailing" constant="50" id="gIJ-FN-Xog"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="pln-3I-1dS" secondAttribute="trailing" constant="12" id="lSj-z9-e7o"/>
                     <constraint firstAttribute="bottom" secondItem="fEv-Kl-m4m" secondAttribute="bottom" constant="12" id="uK4-4G-tz9"/>
                 </constraints>
             </tableViewCellContentView>

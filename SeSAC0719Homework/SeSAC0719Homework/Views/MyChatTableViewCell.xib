@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ger-Dt-2Vf">
-                        <rect key="frame" x="50" y="24" width="276" height="52"/>
+                        <rect key="frame" x="284.66666666666669" y="24" width="41.333333333333314" height="52"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -27,7 +27,7 @@
                     <constraint firstAttribute="trailing" secondItem="ger-Dt-2Vf" secondAttribute="trailing" constant="24" id="6lb-ej-nUJ"/>
                     <constraint firstAttribute="bottom" secondItem="ger-Dt-2Vf" secondAttribute="bottom" constant="24" id="QJf-RG-sGU"/>
                     <constraint firstItem="ger-Dt-2Vf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="24" id="ap6-iG-Xx1"/>
-                    <constraint firstItem="ger-Dt-2Vf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="50" id="oFm-CO-96i"/>
+                    <constraint firstItem="ger-Dt-2Vf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="50" id="oFm-CO-96i"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
