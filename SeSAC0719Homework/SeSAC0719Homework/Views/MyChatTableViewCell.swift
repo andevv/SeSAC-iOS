@@ -9,20 +9,24 @@ import UIKit
 
 class MyChatTableViewCell: UITableViewCell {
     
+    // MARK: - Outlets
     @IBOutlet var messageLabel: UILabel!
     @IBOutlet var timeLabel: UILabel!
     
+    // MARK: - Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
         configureMessageLabel()
         configureTimeLabel()
     }
-
+    
+    // MARK: - Configuration
     func configure(with chat: Chat) {
         messageLabel.text = chat.message
         timeLabel.text = DateFormatter.timeFormat(from: chat.date)
     }
     
+    // MARK: - UI Setup
     private func configureMessageLabel() {
         messageLabel.font = .systemFont(ofSize: 12)
         messageLabel.numberOfLines = 0

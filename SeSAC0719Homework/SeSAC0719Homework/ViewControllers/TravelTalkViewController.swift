@@ -9,9 +9,11 @@ import UIKit
 
 class TravelTalkViewController: UIViewController {
     
+    // MARK: - Outlets
     @IBOutlet var mySearchBar: UISearchBar!
     @IBOutlet var myCollectionView: UICollectionView!
     
+    // MARK: - Properties
     var chatRooms = ChatList.list
     var filteredRooms: [ChatRoom] = []
     
@@ -20,6 +22,7 @@ class TravelTalkViewController: UIViewController {
         static let ChatViewController = "ChatViewController"
     }
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,6 +33,7 @@ class TravelTalkViewController: UIViewController {
         configureSearchBar()
     }
     
+    // MARK: - Configuration
     private func configureCollectionView() {
         myCollectionView.dataSource = self
         myCollectionView.delegate = self

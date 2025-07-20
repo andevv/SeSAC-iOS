@@ -9,11 +9,13 @@ import UIKit
 
 class TravelTalkCollectionViewCell: UICollectionViewCell {
 
+    // MARK: - Outlets
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var lastMessageLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
     
+    // MARK: - Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -21,10 +23,9 @@ class TravelTalkCollectionViewCell: UICollectionViewCell {
         configureNameLabel()
         configureLastMessageLabel()
         configureDateLabel()
-        
-        
     }
     
+    // MARK: - Configuration
     func configure(with room: ChatRoom) {
         profileImageView.image = UIImage(named: room.chatroomImage)
         nameLabel.text = room.chatroomName
@@ -32,6 +33,7 @@ class TravelTalkCollectionViewCell: UICollectionViewCell {
         dateLabel.text = formatDate(room.chatList.last?.date ?? "")
     }
     
+    // MARK: - Utils
     func formatDate(_ string: String) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm"
@@ -42,9 +44,7 @@ class TravelTalkCollectionViewCell: UICollectionViewCell {
         return ""
     }
     
-    
-    // MARK: - Design
-    
+    // MARK: - UI Setup
     private func configureProfileImageView() {
         profileImageView.contentMode = .scaleAspectFit
         profileImageView.clipsToBounds = true

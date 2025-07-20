@@ -9,12 +9,13 @@ import UIKit
 
 class ChatTableViewCell: UITableViewCell {
     
+    // MARK: - Outlets
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var messageLabel: UILabel!
     @IBOutlet var timeLabel: UILabel!
     
-    
+    // MARK: - Lifecycle
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -22,10 +23,9 @@ class ChatTableViewCell: UITableViewCell {
         configureNameLabel()
         configureMessageLabel()
         configureTimeLabel()
-        
-        
     }
     
+    // MARK: - Configuration
     func configure(with chat: Chat) {
         profileImageView.image = UIImage(named: chat.user.image)
         nameLabel.text = chat.user.name
@@ -33,9 +33,7 @@ class ChatTableViewCell: UITableViewCell {
         timeLabel.text = DateFormatter.timeFormat(from: chat.date)
     }
     
-
-
-    
+    // MARK: - UI Setup
     private func configureProfileImageView() {
         profileImageView.contentMode = .scaleAspectFit
         profileImageView.clipsToBounds = true

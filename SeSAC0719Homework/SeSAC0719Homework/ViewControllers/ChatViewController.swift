@@ -9,10 +9,12 @@ import UIKit
 
 class ChatViewController: UIViewController {
 
+    // MARK: - Outlets
     @IBOutlet var myTableView: UITableView!
     @IBOutlet var messageTextField: UITextField!
     @IBOutlet var sendButton: UIButton!
     
+    // MARK: - Properties
     var chatRoom: ChatRoom!
     
     enum Identifier {
@@ -20,6 +22,7 @@ class ChatViewController: UIViewController {
         static let MyChatTableViewCell = "MyChatTableViewCell"
     }
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,9 +31,9 @@ class ChatViewController: UIViewController {
         configureTableView()
         configureMessageTextField()
         configureSendButton()
-
     }
     
+    // MARK: - Configuration
     private func configureTableView() {
         myTableView.dataSource = self
         myTableView.delegate = self
@@ -52,7 +55,7 @@ class ChatViewController: UIViewController {
     }
 }
 
-
+// MARK: - UITableViewDataSource, UITableViewDelegate
 extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
