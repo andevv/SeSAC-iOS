@@ -31,6 +31,7 @@ class ChatViewController: UIViewController {
         configureTableView()
         configureMessageTextField()
         configureSendButton()
+        scrollToBottom()
     }
     
     // MARK: - Configuration
@@ -56,6 +57,15 @@ class ChatViewController: UIViewController {
     private func configureSendButton() {
         sendButton.tintColor = .lightGray
     }
+    
+    private func scrollToBottom() {
+        let lastRow = chatRoom.chatList.count - 1
+        if lastRow >= 0 {
+            let indexPath = IndexPath(row: lastRow, section: 0)
+            myTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
+    }
+
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
