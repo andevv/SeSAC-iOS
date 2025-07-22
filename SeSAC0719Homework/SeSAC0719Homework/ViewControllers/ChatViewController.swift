@@ -38,6 +38,9 @@ class ChatViewController: UIViewController {
         myTableView.dataSource = self
         myTableView.delegate = self
         myTableView.separatorStyle = .none
+        myTableView.rowHeight = UITableView.automaticDimension
+        myTableView.estimatedRowHeight = 100
+
         
         myTableView.register(UINib(nibName: Identifier.chatTableViewCell, bundle: nil), forCellReuseIdentifier: Identifier.chatTableViewCell)
         myTableView.register(UINib(nibName: Identifier.MyChatTableViewCell, bundle: nil), forCellReuseIdentifier: Identifier.MyChatTableViewCell)
@@ -76,8 +79,8 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 90
+//    }
 }
 

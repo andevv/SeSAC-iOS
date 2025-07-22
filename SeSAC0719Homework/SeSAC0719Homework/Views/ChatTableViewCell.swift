@@ -51,6 +51,7 @@ class ChatTableViewCell: UITableViewCell {
         messageLabel.layer.borderColor = UIColor.darkGray.cgColor
         messageLabel.layer.cornerRadius = 10
         messageLabel.clipsToBounds = true
+        messageLabel.lineBreakMode = .byWordWrapping
     }
     
     private func configureTimeLabel() {
