@@ -20,3 +20,11 @@ extension DateFormatter {
         return formatter.string(from: date)
     }
 }
+
+extension DateFormatter {
+    static func currentDateTimeString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        return formatter.string(from: Date())
+    }
+}

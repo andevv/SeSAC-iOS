@@ -34,6 +34,25 @@ class ChatViewController: UIViewController {
         scrollToBottom()
     }
     
+    // MARK: - Actions
+    @IBAction func sendButtonTapped(_ sender: UIButton) {
+        //입력값 확인
+        guard let text = messageTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !text.isEmpty else { return }
+        
+        //새로운 Chat 객체 생성
+        let newChat = Chat(user: ChatList.me, date: DateFormatter.currentDateTimeString(), message: text)
+        
+        //데이터 추가
+        chatRoom.chatList.append(newChat)
+        
+        //입력창 초기화
+        messageTextField.text = ""
+        
+        //리로드
+        myTableView.reloadData()
+        scrollToBottom()
+    }
+    
     // MARK: - Configuration
     private func configureTableView() {
         myTableView.dataSource = self
@@ -58,6 +77,7 @@ class ChatViewController: UIViewController {
         sendButton.tintColor = .lightGray
     }
     
+    // MARK: - Utility
     private func scrollToBottom() {
         let lastRow = chatRoom.chatList.count - 1
         if lastRow >= 0 {
@@ -65,7 +85,6 @@ class ChatViewController: UIViewController {
             myTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
     }
-
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
@@ -93,4 +112,3 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
 //        return 90
 //    }
 }
-
