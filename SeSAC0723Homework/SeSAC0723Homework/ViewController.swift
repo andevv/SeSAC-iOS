@@ -20,5 +20,11 @@ class ViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    
+    @IBAction func BoxOfficeButtonTapped(_ sender: UIButton) {
+        let vc = BoxOfficeViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
 }
 
