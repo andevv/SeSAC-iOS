@@ -11,9 +11,14 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
     }
-
-
+    
+    
+    @IBAction func lottoButtonTapped(_ sender: UIButton) {
+        let vc = LottoViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
 }
 
