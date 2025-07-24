@@ -8,6 +8,7 @@ build/
 *.moved-aside
 *.xcuserstate
 *.xcassets/Assets.car
+*.xcconfig
 
 # SwiftPM
 .build/
