@@ -7,6 +7,20 @@
 
 import UIKit
 import SnapKit
+import Alamofire
+
+struct LottoResponse: Decodable {
+    let drwNo: Int
+    let drwNoDate: String
+    let drwtNo1: Int
+    let drwtNo2: Int
+    let drwtNo3: Int
+    let drwtNo4: Int
+    let drwtNo5: Int
+    let drwtNo6: Int
+    let bnusNo: Int
+    let returnValue: String
+}
 
 // MARK: - 로또 공 색상 정의
 enum BallColor {
@@ -86,8 +100,9 @@ class LottoViewController: UIViewController {
         view.backgroundColor = .white
         setup()
         layout()
-        setResultLabel(round: 1)
-        updateBalls()
+        fetchLottoData(round: 1181)
+        //setResultLabel(round: 1)
+        //updateBalls()
     }
     
     // MARK: - UI 속성 설정
@@ -96,20 +111,20 @@ class LottoViewController: UIViewController {
         roundTextField.textAlignment = .center
         roundTextField.font = .systemFont(ofSize: 20)
         roundTextField.inputView = pickerView
-        roundTextField.text = "1"
+        roundTextField.text = ""
         
         infoLabel.text = "당첨번호 안내"
         infoLabel.font = .systemFont(ofSize: 14)
         infoLabel.textColor = .black
         
-        dateLabel.text = "2025-07-23 추첨"
+        dateLabel.text = ""
         dateLabel.font = .systemFont(ofSize: 12)
         dateLabel.textColor = .darkGray
         dateLabel.textAlignment = .right
         
         resultLabel.font = .boldSystemFont(ofSize: 22)
         resultLabel.textAlignment = .center
-        resultLabel.text = "1회 당첨결과"
+        resultLabel.text = ""
         
         numberStackView.axis = .horizontal
         numberStackView.spacing = 8
@@ -167,6 +182,56 @@ class LottoViewController: UIViewController {
         }
     }
     
+    // MARK: - 로또 API 호출
+    private func fetchLottoData(round: Int) {
+        let url = "https://www.dhlottery.co.kr/common.do"
+        let parameters: Parameters = [
+            "method": "getLottoNumber",
+            "drwNo": round
+        ]
+        
+        AF.request(url, parameters: parameters)
+            .validate()
+            //클로저 기반 비동기 작업 메모리 누수 방지 (뷰컨이 사라지는 타이밍에 응답이 도착하지 않으면 누수 생기기 때문)
+            .responseDecodable(of: LottoResponse.self) { [weak self] response in
+                guard let self = self else { return } //약한 참조로 self가 살아있는 지 확인
+                switch response.result {
+                case .success(let lotto):
+                    guard lotto.returnValue == "success" else { return }
+                    self.updateUI(with: lotto)
+                    print(lotto)
+                case .failure(let error):
+                    print("fail:", error.localizedDescription)
+                }
+            }
+    }
+    
+    // MARK: UI 업데이트
+    private func updateUI(with lotto: LottoResponse) {
+        roundTextField.text = "\(lotto.drwNo)"
+        dateLabel.text = "\(lotto.drwNoDate) 추첨"
+        setResultLabel(round: lotto.drwNo)
+        
+        numberStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        let numbers = [
+            lotto.drwtNo1, lotto.drwtNo2, lotto.drwtNo3,
+            lotto.drwtNo4, lotto.drwtNo5, lotto.drwtNo6
+        ].sorted()
+        
+        numbers.map { BallView(number: $0) }
+            .forEach { numberStackView.addArrangedSubview($0) }
+        
+        let plus = UILabel()
+        plus.text = "+"
+        plus.font = .boldSystemFont(ofSize: 22)
+        plus.textAlignment = .center
+        plus.snp.makeConstraints { $0.width.equalTo(20) }
+        numberStackView.addArrangedSubview(plus)
+        
+        numberStackView.addArrangedSubview(BallView(number: lotto.bnusNo))
+    }
+    
     // MARK: - resultLabel 텍스트 스타일 설정
     private func setResultLabel(round: Int) {
         let roundText = "\(round)회"
@@ -188,31 +253,31 @@ class LottoViewController: UIViewController {
     }
     
     // MARK: - 로또 공/보너스공 랜덤 생성 및 배치
-    private func updateBalls() {
-        numberStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        
-        let allNumbers = Array(1...45).shuffled()
-        let winningNumbers = Array(allNumbers.prefix(6)).sorted()
-        let bonusNumber = allNumbers[6]
-        
-        // 6개 공
-        winningNumbers.map { BallView(number: $0) }
-            .forEach { numberStackView.addArrangedSubview($0) }
-        
-        // + 기호
-        let plus = UILabel()
-        plus.text = "+"
-        plus.font = .boldSystemFont(ofSize: 22)
-        plus.textAlignment = .center
-        plus.snp.makeConstraints {
-            $0.width.equalTo(20)
-        }
-        numberStackView.addArrangedSubview(plus)
-        
-        // 보너스 공
-        let bonus = BallView(number: bonusNumber)
-        numberStackView.addArrangedSubview(bonus)
-    }
+    //    private func updateBalls() {
+    //        numberStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+    //
+    //        let allNumbers = Array(1...45).shuffled()
+    //        let winningNumbers = Array(allNumbers.prefix(6)).sorted()
+    //        let bonusNumber = allNumbers[6]
+    //
+    //        // 6개 공
+    //        winningNumbers.map { BallView(number: $0) }
+    //            .forEach { numberStackView.addArrangedSubview($0) }
+    //
+    //        // + 기호
+    //        let plus = UILabel()
+    //        plus.text = "+"
+    //        plus.font = .boldSystemFont(ofSize: 22)
+    //        plus.textAlignment = .center
+    //        plus.snp.makeConstraints {
+    //            $0.width.equalTo(20)
+    //        }
+    //        numberStackView.addArrangedSubview(plus)
+    //
+    //        // 보너스 공
+    //        let bonus = BallView(number: bonusNumber)
+    //        numberStackView.addArrangedSubview(bonus)
+    //    }
 }
 
 
@@ -230,10 +295,13 @@ extension LottoViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let selected = totalRounds[row]
-        roundTextField.text = "\(selected)"
-        setResultLabel(round: selected)
-        updateBalls()
+        //let selected = totalRounds[row]
+        //roundTextField.text = "\(selected)"
+        //setResultLabel(round: selected)
+        //updateBalls()
+        
+        let selectedRound = totalRounds[row]
+        fetchLottoData(round: selectedRound)
     }
 }
 
