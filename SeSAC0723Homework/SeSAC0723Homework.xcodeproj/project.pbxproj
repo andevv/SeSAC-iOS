@@ -8,10 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		FE301AFF2E3237ED00BB0B0C /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FE301AFE2E3237ED00BB0B0C /* Alamofire */; };
+		FE301B032E325BAD00BB0B0C /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = FE301B022E325BAD00BB0B0C /* Secrets.xcconfig */; };
 		FE5E3CBD2E30B71D00AA7498 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FE5E3CBC2E30B71D00AA7498 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FE301B022E325BAD00BB0B0C /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		FE5E3C9D2E30B01200AA7498 /* SeSAC0723Homework.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeSAC0723Homework.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -52,6 +54,7 @@
 		FE5E3C942E30B01200AA7498 = {
 			isa = PBXGroup;
 			children = (
+				FE301B022E325BAD00BB0B0C /* Secrets.xcconfig */,
 				FE5E3C9F2E30B01200AA7498 /* SeSAC0723Homework */,
 				FE5E3C9E2E30B01200AA7498 /* Products */,
 			);
@@ -135,6 +138,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE301B032E325BAD00BB0B0C /* Secrets.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,6 +157,7 @@
 /* Begin XCBuildConfiguration section */
 		FE5E3CB12E30B01300AA7498 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FE301B022E325BAD00BB0B0C /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

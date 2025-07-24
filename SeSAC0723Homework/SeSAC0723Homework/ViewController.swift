@@ -26,5 +26,11 @@ class ViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    
+    @IBAction func NetworkBoxOfficeButtonTapped(_ sender: UIButton) {
+        let vc = NetworkBoxOfiiceViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
 }
 
