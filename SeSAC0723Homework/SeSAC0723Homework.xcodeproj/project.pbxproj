@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		FE301AFF2E3237ED00BB0B0C /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FE301AFE2E3237ED00BB0B0C /* Alamofire */; };
 		FE301B032E325BAD00BB0B0C /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = FE301B022E325BAD00BB0B0C /* Secrets.xcconfig */; };
+		FE3173892E34BB6100BBFF61 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FE3173882E34BB6100BBFF61 /* Kingfisher */; };
 		FE5E3CBD2E30B71D00AA7498 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = FE5E3CBC2E30B71D00AA7498 /* SnapKit */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE3173892E34BB6100BBFF61 /* Kingfisher in Frameworks */,
 				FE5E3CBD2E30B71D00AA7498 /* SnapKit in Frameworks */,
 				FE301AFF2E3237ED00BB0B0C /* Alamofire in Frameworks */,
 			);
@@ -90,6 +92,7 @@
 			packageProductDependencies = (
 				FE5E3CBC2E30B71D00AA7498 /* SnapKit */,
 				FE301AFE2E3237ED00BB0B0C /* Alamofire */,
+				FE3173882E34BB6100BBFF61 /* Kingfisher */,
 			);
 			productName = SeSAC0723Homework;
 			productReference = FE5E3C9D2E30B01200AA7498 /* SeSAC0723Homework.app */;
@@ -122,6 +125,7 @@
 			packageReferences = (
 				FE5E3CBB2E30B71D00AA7498 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				FE301AFD2E3237ED00BB0B0C /* XCRemoteSwiftPackageReference "Alamofire" */,
+				FE3173872E34BB6100BBFF61 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FE5E3C9E2E30B01200AA7498 /* Products */;
@@ -371,6 +375,14 @@
 				minimumVersion = 5.10.2;
 			};
 		};
+		FE3173872E34BB6100BBFF61 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.5.0;
+			};
+		};
 		FE5E3CBB2E30B71D00AA7498 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -386,6 +398,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FE301AFD2E3237ED00BB0B0C /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		FE3173882E34BB6100BBFF61 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE3173872E34BB6100BBFF61 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		FE5E3CBC2E30B71D00AA7498 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
