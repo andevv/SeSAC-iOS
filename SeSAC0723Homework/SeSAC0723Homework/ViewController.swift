@@ -32,5 +32,11 @@ class ViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    
+    @IBAction func ShoppingButtonTapped(_ sender: UIButton) {
+        let vc = ShoppingViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
 }
 
