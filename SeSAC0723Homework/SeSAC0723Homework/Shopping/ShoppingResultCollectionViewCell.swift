@@ -88,6 +88,20 @@ class ShoppingResultCollectionViewCell: UICollectionViewCell {
         imageView.kf.setImage(with: URL(string: item.image))
         mallLabel.text = item.mallName
         titleLabel.text = item.title.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
-        priceLabel.text = "\(item.lprice)원"
+        priceLabel.text = formatPrice(item.lprice)
     }
+    
+    private func formatPrice(_ priceString: String) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.locale = Locale(identifier: "ko_KR")
+
+        if let number = Int(priceString),
+           let formatted = formatter.string(from: NSNumber(value: number)) {
+            return "\(formatted)원"
+        } else {
+            return "\(priceString)원" // fallback
+        }
+    }
+
 }
