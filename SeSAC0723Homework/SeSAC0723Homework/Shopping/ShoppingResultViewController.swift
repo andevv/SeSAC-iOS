@@ -37,12 +37,18 @@ class ShoppingResultViewController: UIViewController {
     private let totalLabel = UILabel()
     private let sortStackView = UIStackView()
     private let collectionView: UICollectionView = {
+        let spacing: CGFloat = 16
+        let inset: CGFloat = 16
+        let totalSpacing = inset * 2 + spacing
+        let cellWidth = (UIScreen.main.bounds.width - totalSpacing) / 2
+
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 16
-        layout.minimumInteritemSpacing = 8
-        let width = (UIScreen.main.bounds.width - 40) / 2
-        layout.itemSize = CGSize(width: width, height: 200)
+        layout.minimumInteritemSpacing = spacing
+        layout.sectionInset = UIEdgeInsets(top: 0, left: inset, bottom: 0, right: inset)
+        layout.itemSize = CGSize(width: cellWidth, height: 200)
+
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
 
