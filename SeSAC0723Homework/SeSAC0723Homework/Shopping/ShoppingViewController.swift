@@ -45,14 +45,27 @@ extension ShoppingViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let query = searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines),
               query.count >= 2 else {
-            print("검색어는 2글자 이상이어야 합니다.")
+            showAlert(title: "검색어 오류", message: "검색어는 2글자 이상 입력해주세요.") {
+                searchBar.text = ""
+            }
             return
         }
-        
+
         searchBar.resignFirstResponder()
         
         let vc = ShoppingResultViewController()
         vc.query = query
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension UIViewController {
+    func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default) { _ in
+            completion?()
+        }
+        alert.addAction(ok)
+        present(alert, animated: true)
     }
 }
