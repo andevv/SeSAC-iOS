@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import Alamofire
 
 enum SortType: String, CaseIterable {
     case sim = "정확도"
@@ -38,10 +37,6 @@ class ShoppingResultViewController: UIViewController {
     private var isLoading = false //중복 로딩 방지
     private var hasMoreData = true // 마지막 페이지 여부
     private let displayCount = 30
-    
-    // API Key
-    private let clientId = Bundle.main.object(forInfoDictionaryKey: "NAVER_CLIENT_ID") as? String ?? ""
-    private let clientSecret = Bundle.main.object(forInfoDictionaryKey: "NAVER_CLIENT_SECRET") as? String ?? ""
     
     private let totalLabel = UILabel()
     private let sortStackView = UIStackView()
@@ -183,81 +178,47 @@ class ShoppingResultViewController: UIViewController {
         if start > 1000 {
             isLoading = false
             hasMoreData = false
-            showLimitAlert()
+            showAlert(title: "안내", message: "네이버 API 정책상 1000건 이후는 조회할 수 없습니다.")
             return
         }
         
-        let url = "https://openapi.naver.com/v1/search/shop.json"
-        let headers: HTTPHeaders = [
-            "X-Naver-Client-Id": clientId,
-            "X-Naver-Client-Secret": clientSecret
-        ]
-        let parameters: Parameters = [
-            "query": query,
-            "display": displayCount,
-            "start": start,
-            "sort": selectedSort.apiParameter
-        ]
-        
-        AF.request(url, parameters: parameters, headers: headers)
-            .validate()
-            .responseDecodable(of: ShoppingResponse.self) { response in
-                self.isLoading = false
-                switch response.result {
-                case .success(let data):
-                    self.totalLabel.text = "\(data.total.formatted())개의 검색 결과"
-                    if reset {
-                        self.items = data.items
-                    } else {
-                        self.items.append(contentsOf: data.items)
-                    }
-                    self.collectionView.reloadData()
-                    self.page += 1
-                    
-                    // 마지막 페이지인지 확인
-                    if (start + data.items.count - 1) >= data.total {
-                        self.hasMoreData = false
-                    }
-                case .failure(let error):
-                    print("fail:", error)
-                    
-                    //실패 시 alert
-                    self.showAlert(title: "오류", message: "데이터를 불러오지 못했습니다.")
-                    
+        NetworkManager.shared.fetchShoppingItems(
+            query: query,
+            sort: selectedSort.apiParameter,
+            start: start,
+            display: displayCount
+        ) { result in
+            self.isLoading = false
+            switch result {
+            case .success(let data):
+                self.totalLabel.text = "\(data.total.formatted())개의 검색 결과"
+                if reset {
+                    self.items = data.items
+                } else {
+                    self.items.append(contentsOf: data.items)
                 }
+                self.collectionView.reloadData()
+                self.page += 1
+                
+                if (start + data.items.count - 1) >= data.total {
+                    self.hasMoreData = false
+                }
+            case .failure:
+                self.showAlert(title: "오류", message: "데이터를 불러오지 못했습니다.")
             }
+        }
     }
     
     private func fetchRecommendedItems() {
-        let url = "https://openapi.naver.com/v1/search/shop.json"
-        let parameters: Parameters = ["query": "새싹", "display": 10, "sort": "sim"]
-        let headers: HTTPHeaders = [
-            "X-Naver-Client-Id": clientId,
-            "X-Naver-Client-Secret": clientSecret
-        ]
-        
-        AF.request(url, parameters: parameters, headers: headers)
-            .validate()
-            .responseDecodable(of: ShoppingResponse.self) { response in
-                switch response.result {
-                case .success(let data):
-                    self.recommendedItems = data.items
-                    self.recommendCollectionView.reloadData()
-                case .failure:
-                    //실패 시 alert
-                    self.showAlert(title: "오류", message: "데이터를 불러오지 못했습니다.")
-                }
+        NetworkManager.shared.fetchRecommendedItems { result in
+            switch result {
+            case .success(let data):
+                self.recommendedItems = data.items
+                self.recommendCollectionView.reloadData()
+            case .failure:
+                self.showAlert(title: "오류", message: "데이터를 불러오지 못했습니다.")
             }
-    }
-    
-    private func showLimitAlert() {
-        let alert = UIAlertController(
-            title: "안내",
-            message: "네이버 API 정책상 1000건 이후는 조회할 수 없습니다.",
-            preferredStyle: .alert
-        )
-        alert.addAction(UIAlertAction(title: "확인", style: .default))
-        present(alert, animated: true)
+        }
     }
 }
 
