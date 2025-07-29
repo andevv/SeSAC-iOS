@@ -30,6 +30,9 @@ class ShoppingResultViewController: UIViewController {
     private var items: [ShoppingItem] = []
     private var selectedSort: SortType = .sim
     
+    //추천 아이템 관련 프로퍼티
+    private var recommendedItems: [ShoppingItem] = []
+    
     // 페이지네이션 관련 프로퍼티
     private var page = 1
     private var isLoading = false //중복 로딩 방지
@@ -58,6 +61,15 @@ class ShoppingResultViewController: UIViewController {
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
+    private let recommendCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 16
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        layout.itemSize = CGSize(width: 150, height: 200)
+        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -71,12 +83,14 @@ class ShoppingResultViewController: UIViewController {
         
         setupUI()
         fetchShoppingData(reset: true)
+        fetchRecommendedItems() //추천 아이템 fetch
     }
     
     private func setupUI() {
         view.addSubview(totalLabel)
         view.addSubview(sortStackView)
         view.addSubview(collectionView)
+        view.addSubview(recommendCollectionView)
         
         totalLabel.textColor = .green
         totalLabel.font = .boldSystemFont(ofSize: 14)
@@ -124,6 +138,17 @@ class ShoppingResultViewController: UIViewController {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(sortStackView.snp.bottom).offset(4)
             make.leading.trailing.bottom.equalToSuperview()
+            make.bottom.equalTo(recommendCollectionView.snp.top).offset(-8)
+        }
+        
+        recommendCollectionView.backgroundColor = .white
+        recommendCollectionView.register(ShoppingResultCollectionViewCell.self, forCellWithReuseIdentifier: ShoppingResultCollectionViewCell.identifier)
+        recommendCollectionView.dataSource = self
+        recommendCollectionView.delegate = self
+        recommendCollectionView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(8)
+            make.height.equalTo(220)
         }
     }
     
@@ -197,8 +222,30 @@ class ShoppingResultViewController: UIViewController {
                     print("fail:", error)
                     
                     //실패 시 alert
-                    self.showAlert(title: "네트워크 오류", message: "네트워크 상태를 확인해주세요.")
+                    self.showAlert(title: "오류", message: "데이터를 불러오지 못했습니다.")
                     
+                }
+            }
+    }
+    
+    private func fetchRecommendedItems() {
+        let url = "https://openapi.naver.com/v1/search/shop.json"
+        let parameters: Parameters = ["query": "새싹", "display": 10, "sort": "sim"]
+        let headers: HTTPHeaders = [
+            "X-Naver-Client-Id": clientId,
+            "X-Naver-Client-Secret": clientSecret
+        ]
+        
+        AF.request(url, parameters: parameters, headers: headers)
+            .validate()
+            .responseDecodable(of: ShoppingResponse.self) { response in
+                switch response.result {
+                case .success(let data):
+                    self.recommendedItems = data.items
+                    self.recommendCollectionView.reloadData()
+                case .failure:
+                    //실패 시 alert
+                    self.showAlert(title: "오류", message: "데이터를 불러오지 못했습니다.")
                 }
             }
     }
@@ -212,12 +259,15 @@ class ShoppingResultViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "확인", style: .default))
         present(alert, animated: true)
     }
-
 }
 
 extension ShoppingResultViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
+        if collectionView == self.collectionView {
+            return items.count
+        } else {
+            return recommendedItems.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -227,13 +277,20 @@ extension ShoppingResultViewController: UICollectionViewDataSource {
         ) as? ShoppingResultCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.configure(with: items[indexPath.item])
+        
+        if collectionView == self.collectionView {
+            cell.configure(with: items[indexPath.item])
+        } else {
+            cell.configure(with: recommendedItems[indexPath.item])
+        }
+        
         return cell
     }
 }
 
 extension ShoppingResultViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard collectionView == self.collectionView else { return }
         guard !isLoading, hasMoreData else { return }
         
         if indexPath.item == items.count - 1 {
