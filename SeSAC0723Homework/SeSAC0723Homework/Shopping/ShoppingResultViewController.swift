@@ -195,6 +195,10 @@ class ShoppingResultViewController: UIViewController {
                     }
                 case .failure(let error):
                     print("fail:", error)
+                    
+                    //실패 시 alert
+                    self.showAlert(title: "네트워크 오류", message: "네트워크 상태를 확인해주세요.")
+                    
                 }
             }
     }
