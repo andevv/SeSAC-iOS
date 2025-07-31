@@ -87,3 +87,27 @@
 * 이니셜라이저를 통한 커스텀뷰 활용
 * 네트워크 통신(Alamofire / Decodable)
 * lazy var
+
+### 07.25.
+* HTTP Header, HTTP Status Code
+* 네트워크 통신 시점에 따른 TableView 갱신
+* SearchBarDelelgate
+
+### 07.28.
+* Pagenation
+* UITableView willDisplayCell
+* BaseVC / BaseView / loadView
+
+### 07.29.
+* .gitignore
+* 일급객체와 클로저 (+클로저 표현식)
+* Singleton Pattern, Network 로직 분리
+
+### 07.30.
+* SceneDelegate UIWindow 
+* GCD (sync/async, serial/concurrent)
+* 하나의 VC에서 여러 테이블/컬렉션뷰 활용
+
+### 07.31.
+* 역 값전달
+* Dispatch Group
