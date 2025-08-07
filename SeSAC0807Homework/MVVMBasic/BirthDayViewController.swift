@@ -20,52 +20,36 @@ enum BirthInputError: Error {
 }
 
 class BirthDayViewController: UIViewController {
-    let yearTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "년도를 입력해주세요"
-        textField.borderStyle = .roundedRect
-        return textField
-    }()
-    let yearLabel: UILabel = {
-        let label = UILabel()
-        label.text = "년"
-        return label
-    }()
-    let monthTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "월을 입력해주세요"
-        textField.borderStyle = .roundedRect
-        return textField
-    }()
-    let monthLabel: UILabel = {
-        let label = UILabel()
-        label.text = "월"
-        return label
-    }()
-    let dayTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "일을 입력해주세요"
-        textField.borderStyle = .roundedRect
-        return textField
-    }()
-    let dayLabel: UILabel = {
-        let label = UILabel()
-        label.text = "일"
-        return label
-    }()
-    let resultButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .systemBlue
-        button.setTitle( "클릭", for: .normal)
-        button.layer.cornerRadius = 8
-        return button
-    }()
-    let resultLabel: UILabel = {
-        let label = UILabel()
-        label.text = "여기에 결과를 보여주세요"
-        label.textAlignment = .center
-        return label
-    }()
+    let yearTextField = GenericViewFactory.make(UITextField.self) {
+        $0.placeholder = "년도를 입력해주세요"
+        $0.borderStyle = .roundedRect
+    }
+    let yearLabel = GenericViewFactory.make(UILabel.self) {
+        $0.text = "년"
+    }
+    let monthTextField = GenericViewFactory.make(UITextField.self) {
+        $0.placeholder = "월을 입력해주세요"
+        $0.borderStyle = .roundedRect
+    }
+    let monthLabel = GenericViewFactory.make(UILabel.self) {
+        $0.text = "월"
+    }
+    let dayTextField = GenericViewFactory.make(UITextField.self) {
+        $0.placeholder = "일을 입력해주세요"
+        $0.borderStyle = .roundedRect
+    }
+    let dayLabel = GenericViewFactory.make(UILabel.self) {
+        $0.text = "일"
+    }
+    let resultButton = GenericViewFactory.make(UIButton.self) {
+        $0.backgroundColor = .systemBlue
+        $0.setTitle("클릭", for: .normal)
+        $0.layer.cornerRadius = 8
+    }
+    let resultLabel = GenericViewFactory.make(UILabel.self) {
+        $0.text = "여기에 결과를 보여주세요"
+        $0.textAlignment = .center
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

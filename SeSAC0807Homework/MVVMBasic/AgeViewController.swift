@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 enum AgeInputError: Error {
     case empty
@@ -14,31 +15,24 @@ enum AgeInputError: Error {
 }
 
 class AgeViewController: UIViewController {
-    let textField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "나이를 입력해주세요"
-        textField.borderStyle = .roundedRect
-        return textField
-    }()
-    let resultButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .systemBlue
-        button.setTitle( "클릭", for: .normal)
-        button.layer.cornerRadius = 8
-        return button
-    }()
-    let label: UILabel = {
-        let label = UILabel()
-        label.text = "여기에 결과를 보여주세요"
-        label.textAlignment = .center
-        return label
-    }()
+    let textField = GenericViewFactory.make(UITextField.self) {
+        $0.placeholder = "나이를 입력해주세요"
+        $0.borderStyle = .roundedRect
+    }
+    let resultButton = GenericViewFactory.make(UIButton.self) {
+        $0.backgroundColor = .systemBlue
+        $0.setTitle("클릭", for: .normal)
+        $0.layer.cornerRadius = 8
+    }
+    let label = GenericViewFactory.make(UILabel.self) {
+        $0.text = "여기에 결과를 보여주세요"
+        $0.textAlignment = .center
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureHierarchy()
         configureLayout()
-        
         resultButton.addTarget(self, action: #selector(resultButtonTapped), for: .touchUpInside)
     }
     
@@ -51,19 +45,17 @@ class AgeViewController: UIViewController {
     func configureLayout() {
         textField.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(44)
         }
-        
         resultButton.snp.makeConstraints { make in
             make.top.equalTo(textField.snp.bottom).offset(20)
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(44)
         }
-        
         label.snp.makeConstraints { make in
             make.top.equalTo(resultButton.snp.bottom).offset(20)
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(44)
         }
     }
@@ -86,9 +78,7 @@ class AgeViewController: UIViewController {
     }
     
     @objc func resultButtonTapped() {
-        print(#function)
         view.endEditing(true)
-        
         do {
             let age = try validateAgeInput(textField.text)
             label.text = "입력하신 나이는 \(age)세입니다."

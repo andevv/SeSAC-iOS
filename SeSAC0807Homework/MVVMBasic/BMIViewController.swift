@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 enum BMIInputError: Error {
     case emptyHeight
@@ -16,31 +17,23 @@ enum BMIInputError: Error {
 }
 
 class BMIViewController: UIViewController {
-    let heightTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "키를 입력해주세요"
-        textField.borderStyle = .roundedRect
-        return textField
-    }()
-    let ageTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "몸무게를 입력해주세요"
-        textField.borderStyle = .roundedRect
-        return textField
-    }()
-    let resultButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .systemBlue
-        button.setTitle("클릭", for: .normal)
-        button.layer.cornerRadius = 8
-        return button
-    }()
-    let resultLabel: UILabel = {
-        let label = UILabel()
-        label.text = "여기에 결과를 보여주세요"
-        label.textAlignment = .center
-        return label
-    }()
+    let heightTextField = GenericViewFactory.make(UITextField.self) {
+        $0.placeholder = "키를 입력해주세요"
+        $0.borderStyle = .roundedRect
+    }
+    let weightTextField = GenericViewFactory.make(UITextField.self) {
+        $0.placeholder = "몸무게를 입력해주세요"
+        $0.borderStyle = .roundedRect
+    }
+    let resultButton = GenericViewFactory.make(UIButton.self) {
+        $0.backgroundColor = .systemBlue
+        $0.setTitle("클릭", for: .normal)
+        $0.layer.cornerRadius = 8
+    }
+    let resultLabel = GenericViewFactory.make(UILabel.self) {
+        $0.text = "여기에 결과를 보여주세요"
+        $0.textAlignment = .center
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +45,7 @@ class BMIViewController: UIViewController {
     
     func configureHierarchy() {
         view.addSubview(heightTextField)
-        view.addSubview(ageTextField)
+        view.addSubview(weightTextField)
         view.addSubview(resultButton)
         view.addSubview(resultLabel)
     }
@@ -64,14 +57,14 @@ class BMIViewController: UIViewController {
             make.height.equalTo(44)
         }
         
-        ageTextField.snp.makeConstraints { make in
+        weightTextField.snp.makeConstraints { make in
             make.top.equalTo(heightTextField.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.height.equalTo(44)
         }
         
         resultButton.snp.makeConstraints { make in
-            make.top.equalTo(ageTextField.snp.bottom).offset(20)
+            make.top.equalTo(weightTextField.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.height.equalTo(44)
         }
@@ -111,7 +104,7 @@ class BMIViewController: UIViewController {
         view.endEditing(true)
         
         do {
-            let (height, weight) = try validateBMIInput(heightInput: heightTextField.text, weightInput: ageTextField.text)
+            let (height, weight) = try validateBMIInput(heightInput: heightTextField.text, weightInput: weightTextField.text)
             let bmi = weight / ((height/100) * (height/100))
             resultLabel.text = String(format: "BMI: %.2f", bmi)
             resultLabel.textColor = .label
