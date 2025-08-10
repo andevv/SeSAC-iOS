@@ -10,9 +10,11 @@ import SnapKit
 
 class CurrencyViewController: UIViewController {
     
+    private let viewModel = CurrencyViewModel()
+    
     private let exchangeRateLabel: UILabel = {
         let label = UILabel()
-        label.text = "현재 환율: 1 USD = 1,350 KRW"
+        //label.text = "현재 환율: 1 USD = 1,350 KRW"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 16, weight: .medium)
         return label
@@ -39,7 +41,7 @@ class CurrencyViewController: UIViewController {
     
     private let resultLabel: UILabel = {
         let label = UILabel()
-        label.text = "환전 결과가 여기에 표시됩니다"
+        //label.text = "환전 결과가 여기에 표시됩니다"
         label.textAlignment = .center
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 16, weight: .medium)
@@ -50,6 +52,7 @@ class CurrencyViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setupConstraints()
+        bindViewModel()
         setupActions()
     }
      
@@ -59,6 +62,11 @@ class CurrencyViewController: UIViewController {
         [exchangeRateLabel, amountTextField, convertButton, resultLabel].forEach {
             view.addSubview($0)
         }
+        
+        // ViewModel의 고정 텍스트 바인딩
+        exchangeRateLabel.text = viewModel.exchangeRateText
+        // 초기 결과 텍스트 세팅
+        resultLabel.text = viewModel.resultText
     }
     
     private func setupConstraints() {
@@ -88,16 +96,15 @@ class CurrencyViewController: UIViewController {
     private func setupActions() {
         convertButton.addTarget(self, action: #selector(convertButtonTapped), for: .touchUpInside)
     }
+    
+    private func bindViewModel() {
+        // ViewModel -> View: resultText가 바뀌면 라벨 갱신 (didSet로 트리거)
+        viewModel.onResultTextChange = { text in
+            self.resultLabel.text = text
+        }
+    }
      
     @objc private func convertButtonTapped() {
-        guard let amountText = amountTextField.text,
-              let amount = Double(amountText) else {
-            resultLabel.text = "올바른 금액을 입력해주세요"
-            return
-        }
-        
-        let exchangeRate = 1350.0 // 실제 환율 데이터로 대체 필요
-        let convertedAmount = amount / exchangeRate
-        resultLabel.text = String(format: "%.2f USD (약 $%.2f)", convertedAmount, convertedAmount)
+        viewModel.convert(fromKRW: amountTextField.text ?? "")
     }
 }

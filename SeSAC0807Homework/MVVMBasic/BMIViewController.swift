@@ -8,15 +8,10 @@
 import UIKit
 import SnapKit
 
-enum BMIInputError: Error {
-    case emptyHeight
-    case emptyWeight
-    case notNumber
-    case heightOutOfRange
-    case weightOutOfRange
-}
-
-class BMIViewController: UIViewController {
+final class BMIViewController: UIViewController {
+    
+    private let viewModel = BMIViewModel()
+    
     let heightTextField = GenericViewFactory.make(UITextField.self) {
         $0.placeholder = "키를 입력해주세요"
         $0.borderStyle = .roundedRect
@@ -39,8 +34,27 @@ class BMIViewController: UIViewController {
         super.viewDidLoad()
         configureHierarchy()
         configureLayout()
+        bindViewModel()
         
         resultButton.addTarget(self, action: #selector(resultButtonTapped), for: .touchUpInside)
+    }
+    
+    // Bindings
+    private func bindViewModel() {
+        viewModel.onResultTextChange = { text in
+            self.resultLabel.text = text
+            if !text.isEmpty {
+                self.resultLabel.textColor = .label
+            }
+        }
+        viewModel.onEvent = { event in
+            switch event {
+            case .showAlert(let message):
+                self.showAlert(message: message)
+            }
+        }
+        // 초기값 반영
+        resultLabel.text = viewModel.resultText
     }
     
     func configureHierarchy() {
@@ -76,55 +90,14 @@ class BMIViewController: UIViewController {
         }
     }
     
-    func validateBMIInput(heightInput: String?, weightInput: String?) throws(BMIInputError) -> (Double, Double) {
-        guard let hInput = heightInput?.trimmingCharacters(in: .whitespacesAndNewlines), !hInput.isEmpty else {
-            throw BMIInputError.emptyHeight
-        }
-        guard let wInput = weightInput?.trimmingCharacters(in: .whitespacesAndNewlines), !wInput.isEmpty else {
-            throw BMIInputError.emptyWeight
-        }
-        guard let height = Double(hInput), let weight = Double(wInput) else {
-            throw BMIInputError.notNumber
-        }
-        // 키 90~250cm, 몸무게 20~200kg 범위
-        guard (90...250).contains(height) else {
-            throw BMIInputError.heightOutOfRange
-        }
-        guard (20...200).contains(weight) else {
-            throw BMIInputError.weightOutOfRange
-        }
-        return (height, weight)
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
     
     @objc func resultButtonTapped() {
         view.endEditing(true)
-        
-        do {
-            let (height, weight) = try validateBMIInput(heightInput: heightTextField.text, weightInput: weightTextField.text)
-            let bmi = weight / ((height/100) * (height/100))
-            resultLabel.text = String(format: "BMI: %.2f", bmi)
-            resultLabel.textColor = .label
-        } catch let error {
-            var message = ""
-            switch error {
-            case BMIInputError.emptyHeight:
-                message = "키를 입력해주세요."
-            case BMIInputError.emptyWeight:
-                message = "몸무게를 입력해주세요."
-            case BMIInputError.notNumber:
-                message = "숫자만 입력해주세요."
-            case BMIInputError.heightOutOfRange:
-                message = "키는 90~250cm 범위만 허용됩니다."
-            case BMIInputError.weightOutOfRange:
-                message = "몸무게는 20~200kg 범위만 허용됩니다."
-            }
-            showAlert(message: message)
-            resultLabel.text = ""
-        }
+        viewModel.didTapResult(heightText: heightTextField.text,
+                               weightText: weightTextField.text)
     }
     
     func showAlert(message: String) {
