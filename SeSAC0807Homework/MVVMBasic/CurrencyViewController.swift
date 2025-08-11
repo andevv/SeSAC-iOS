@@ -65,8 +65,6 @@ class CurrencyViewController: UIViewController {
         
         // ViewModel의 고정 텍스트 바인딩
         exchangeRateLabel.text = viewModel.exchangeRateText
-        // 초기 결과 텍스트 세팅
-        resultLabel.text = viewModel.resultText
     }
     
     private func setupConstraints() {
@@ -98,10 +96,9 @@ class CurrencyViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        // ViewModel -> View: resultText가 바뀌면 라벨 갱신 (didSet로 트리거)
-        viewModel.onResultTextChange = { text in
+        viewModel.resultText.bind({ text in
             self.resultLabel.text = text
-        }
+        })
     }
      
     @objc private func convertButtonTapped() {

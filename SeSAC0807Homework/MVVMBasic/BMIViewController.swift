@@ -39,22 +39,21 @@ final class BMIViewController: UIViewController {
         resultButton.addTarget(self, action: #selector(resultButtonTapped), for: .touchUpInside)
     }
     
-    // Bindings
     private func bindViewModel() {
-        viewModel.onResultTextChange = { text in
+        // 상태 바인딩 (초기값 즉시 반영)
+        viewModel.resultText.bind({ text in
             self.resultLabel.text = text
-            if !text.isEmpty {
-                self.resultLabel.textColor = .label
-            }
-        }
-        viewModel.onEvent = { event in
-            switch event {
+            self.resultLabel.textColor = text.isEmpty ? .systemRed : .label
+        })
+
+        // 이벤트 바인딩 (초기값은 nil이므로 fireNow=false)
+        viewModel.event.bind({ ev in
+            guard let ev = ev else { return }
+            switch ev {
             case .showAlert(let message):
                 self.showAlert(message: message)
             }
-        }
-        // 초기값 반영
-        resultLabel.text = viewModel.resultText
+        }, fireNow: false)
     }
     
     func configureHierarchy() {

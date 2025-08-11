@@ -35,20 +35,17 @@ final class AgeViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.onResultTextChange = { text in
+        // Observable 바인딩: fireNow 기본값 true, 초기값 자동 반영
+        viewModel.resultText.bind({ text in
             self.label.text = text
-        }
-        viewModel.onResultColorChange = { color in
+        })
+
+        viewModel.resultColor.bind({ color in
             switch color {
-            case .normal:
-                self.label.textColor = .label
-            case .error:
-                self.label.textColor = .systemRed
+            case .normal: self.label.textColor = .label
+            case .error:  self.label.textColor = .systemRed
             }
-        }
-        // 초기값 반영
-        label.text = viewModel.resultText
-        label.textColor = .label
+        })
     }
     
     func configureHierarchy() {

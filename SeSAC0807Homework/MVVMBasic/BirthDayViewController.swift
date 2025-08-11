@@ -53,25 +53,20 @@ final class BirthDayViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        // resultText가 바뀌면 라벨 업데이트 (didSet 트리거)
-        viewModel.onResultTextChange = { text in
-            self.resultLabel.text = text
-            // 성공 시에는 label 컬러를 기본 컬러로
-            if !text.isEmpty {
-                self.resultLabel.textColor = .label
-            }
-        }
-        
-        // Alert
-        viewModel.onEvent = { event in
-            switch event {
+        // 상태 바인딩 (초기값 즉시 반영)
+        viewModel.resultText.bind({ [weak self] text in
+            self?.resultLabel.text = text
+            self?.resultLabel.textColor = text.isEmpty ? .systemRed : .label
+        })
+
+        // 이벤트 바인딩 (초기값 nil, fireNow=false)
+        viewModel.event.bind({ [weak self] ev in
+            guard let ev = ev else { return }
+            switch ev {
             case .showAlert(let message):
-                self.showAlert(message: message)
+                self?.showAlert(message: message)
             }
-        }
-        
-        // 초기값 반영
-        resultLabel.text = viewModel.resultText
+        }, fireNow: false)
     }
     
     func configureHierarchy() {

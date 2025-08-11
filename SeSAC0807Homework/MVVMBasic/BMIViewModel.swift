@@ -17,31 +17,29 @@ enum BMIInputError: Error {
 
 final class BMIViewModel {
     
-    var resultText: String = "여기에 결과를 보여주세요" {
-        didSet { onResultTextChange?(resultText) }
-    }
+    let resultText = Observable<String>("여기에 결과를 보여주세요")
     
     // alert
     enum Event {
         case showAlert(String)
     }
-    var event: Event? {
-        didSet { if let event = event { onEvent?(event) } }
-    }
-    
-    // Bindings
-    var onResultTextChange: ((String) -> Void)?
-    var onEvent: ((Event) -> Void)?
+    let event = Observable<Event?>(nil)
 
     func didTapResult(heightText: String?, weightText: String?) {
         do {
             let (h, w) = try validateBMIInput(heightInput: heightText, weightInput: weightText)
             let bmi = w / ((h / 100) * (h / 100))
-            resultText = String(format: "BMI: %.2f", bmi)
+            resultText.value = String(format: "BMI: %.2f", bmi)
         } catch {
-            resultText = ""
-            event = .showAlert(message(for: error))
+            resultText.value = ""
+            publish(.showAlert(message(for: error)))
         }
+    }
+    
+    private func publish(_ e: Event) {
+        event.value = e
+        // 이벤트 재발행을 위해 한 틱 뒤에 nil로 초기화
+        DispatchQueue.main.async { [weak event] in event?.value = nil }
     }
     
     // Validation

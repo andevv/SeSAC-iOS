@@ -39,7 +39,7 @@ class WordCounterViewController: UIViewController {
         bindViewModel()
         setupTextView()
         // 초기 동기화
-        viewModel.inputText = textView.text ?? ""
+        viewModel.updateInput(textView.text ?? "")
     }
      
     private func setupUI() {
@@ -69,19 +69,15 @@ class WordCounterViewController: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.onCountTextChanged = { text in
+        // 초기값 즉시 반영(fireNow 기본값 true)
+        viewModel.countText.bind({ text in
             self.countLabel.text = text
-        }
+        })
     }
-     
-//    private func updateCharacterCount() {
-//        let count = textView.text.count
-//        countLabel.text = "현재까지 \(count)글자 작성중"
-//    }
 }
  
 extension WordCounterViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        viewModel.inputText = textView.text ?? ""
+        viewModel.updateInput(textView.text ?? "")
     }
 }

@@ -21,34 +21,31 @@ enum AgeResultColor {
 final class AgeViewModel {
 
     // Outputs
-    var resultText: String = "여기에 결과를 보여주세요" {
-        didSet { onResultTextChange?(resultText) }
-    }
-    var resultColor: AgeResultColor = .normal {
-        didSet { onResultColorChange?(resultColor) }
-    }
+    let resultText = Observable<String>("여기에 결과를 보여주세요")
+    let resultColor = Observable<AgeResultColor>(.normal)
 
     // Bindings
     var onResultTextChange: ((String) -> Void)?
     var onResultColorChange: ((AgeResultColor) -> Void)?
 
+    // 액션
     func didTapResult(inputText: String?) {
         do {
             let age = try validateAgeInput(inputText)
-            resultText = "입력하신 나이는 \(age)세입니다."
-            resultColor = .normal
+            resultText.value = "입력하신 나이는 \(age)세입니다."
+            resultColor.value = .normal
         } catch {
             switch error {
             case AgeInputError.empty:
-                resultText = "나이를 입력해주세요."
+                resultText.value = "나이를 입력해주세요."
             case AgeInputError.notNumber:
-                resultText = "숫자만 입력해주세요."
+                resultText.value = "숫자만 입력해주세요."
             case AgeInputError.outOfRange:
-                resultText = "1~100 사이의 나이만 입력해주세요."
+                resultText.value = "1~100 사이의 나이만 입력해주세요."
             default:
-                resultText = "알 수 없는 오류가 발생했습니다."
+                resultText.value = "알 수 없는 오류가 발생했습니다."
             }
-            resultColor = .error
+            resultColor.value = .error
         }
     }
 

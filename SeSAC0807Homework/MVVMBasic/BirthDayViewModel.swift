@@ -20,21 +20,13 @@ enum BirthInputError: Error {
 
 final class BirthDayViewModel {
     
-    var resultText: String = "여기에 결과를 보여주세요" {
-        didSet { onResultTextChange?(resultText) }
-    }
+    let resultText = Observable<String>("여기에 결과를 보여주세요")
     
     // alert 이벤트
     enum Event {
         case showAlert(String)
     }
-    var event: Event? {
-        didSet { if let event = event { onEvent?(event) } }
-    }
-    
-    // Bindings
-    var onResultTextChange: ((String) -> Void)?
-    var onEvent: ((Event) -> Void)?
+    let event = Observable<Event?>(nil)
     
     func didTapResult(yearText: String?, monthText: String?, dayText: String?) {
         do {
@@ -44,11 +36,17 @@ final class BirthDayViewModel {
             let today = Calendar.current.startOfDay(for: Date())
             let birthDay = Calendar.current.startOfDay(for: birthDate)
             let days = Calendar.current.dateComponents([.day], from: birthDay, to: today).day ?? 0
-            resultText = "D+\(days + 1) 일째 입니다."
+            resultText.value = "D+\(days + 1) 일째 입니다."
         } catch {
-            resultText = ""
-            event = .showAlert(message(for: error))
+            resultText.value = ""
+            publish(.showAlert(message(for: error)))
         }
+    }
+    
+    private func publish(_ e: Event) {
+        event.value = e
+        // 중복 이벤트 재수신 위해 다음 런루프에 nil로 리셋
+        DispatchQueue.main.async { [weak event] in event?.value = nil }
     }
     
     // Validation
