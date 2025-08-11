@@ -12,12 +12,13 @@ import SnapKit
 class MapViewController: UIViewController {
      
     private let mapView = MKMapView()
+    private let viewModel = MapViewModel()
      
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupMapView()
-        addSeoulStationAnnotation()
+        bindViewModel()
     }
      
     private func setupUI() {
@@ -52,43 +53,89 @@ class MapViewController: UIViewController {
         mapView.setRegion(region, animated: true)
     }
     
-    private func addSeoulStationAnnotation() {
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = CLLocationCoordinate2D(latitude: 37.5547, longitude: 126.9706)
-        annotation.title = "서울역"
-        annotation.subtitle = "대한민국 서울특별시"
-        mapView.addAnnotation(annotation)
+    private func bindViewModel() {
+        // 레스토랑 목록이 바뀌면 어노테이션 갱신 후 영역 자동 맞춤
+        viewModel.restaurants.bind({ [weak self] list in
+            guard let self = self else { return }
+            self.reloadAnnotations(with: list)
+            self.fitAllAnnotations()
+        })
+    }
+
+    @objc private func rightBarButtonTapped() {
+        let alert = UIAlertController(title: "카테고리 선택", message: nil, preferredStyle: .actionSheet)
+
+        RestaurantCategory.allCases.forEach { category in
+            let action = UIAlertAction(title: category.rawValue, style: .default) { _ in
+                self.viewModel.setCategory(category)
+            }
+            alert.addAction(action)
+        }
+
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        present(alert, animated: true)
     }
      
-    @objc private func rightBarButtonTapped() {
-        let alertController = UIAlertController(
-            title: "메뉴 선택",
-            message: "원하는 옵션을 선택하세요",
-            preferredStyle: .actionSheet
+//    @objc private func rightBarButtonTapped() {
+//        let alertController = UIAlertController(
+//            title: "메뉴 선택",
+//            message: "원하는 옵션을 선택하세요",
+//            preferredStyle: .actionSheet
+//        )
+//        
+//        let alert1Action = UIAlertAction(title: "얼럿 1", style: .default) { _ in
+//            print("얼럿 1이 선택되었습니다.")
+//        }
+//        
+//        let alert2Action = UIAlertAction(title: "얼럿 2", style: .default) { _ in
+//            print("얼럿 2가 선택되었습니다.")
+//        }
+//        
+//        let alert3Action = UIAlertAction(title: "얼럿 3", style: .default) { _ in
+//            print("얼럿 3이 선택되었습니다.")
+//        }
+//        
+//        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
+//            print("취소가 선택되었습니다.")
+//        }
+//        
+//        alertController.addAction(alert1Action)
+//        alertController.addAction(alert2Action)
+//        alertController.addAction(alert3Action)
+//        alertController.addAction(cancelAction)
+//         
+//        present(alertController, animated: true, completion: nil)
+//    }
+    
+    private func reloadAnnotations(with list: [Restaurant]) {
+        mapView.removeAnnotations(mapView.annotations)
+
+        let annotations: [MKPointAnnotation] = list.map { r in
+            let ann = MKPointAnnotation()
+            ann.coordinate = CLLocationCoordinate2D(latitude: r.latitude, longitude: r.longitude)
+            ann.title = r.name
+            ann.subtitle = "\(r.category) · \(r.address)"
+            return ann
+        }
+        mapView.addAnnotations(annotations)
+    }
+    
+    private func fitAllAnnotations(edge: CGFloat = 40) {
+        let anns = mapView.annotations
+        guard !anns.isEmpty else { return }
+
+        var zoomRect = MKMapRect.null
+        anns.forEach { ann in
+            let point = MKMapPoint(ann.coordinate)
+            let rect = MKMapRect(x: point.x, y: point.y, width: 0, height: 0)
+            zoomRect = zoomRect.union(rect)
+        }
+
+        mapView.setVisibleMapRect(
+            zoomRect,
+            edgePadding: UIEdgeInsets(top: edge, left: edge, bottom: edge, right: edge),
+            animated: true
         )
-        
-        let alert1Action = UIAlertAction(title: "얼럿 1", style: .default) { _ in
-            print("얼럿 1이 선택되었습니다.")
-        }
-        
-        let alert2Action = UIAlertAction(title: "얼럿 2", style: .default) { _ in
-            print("얼럿 2가 선택되었습니다.")
-        }
-        
-        let alert3Action = UIAlertAction(title: "얼럿 3", style: .default) { _ in
-            print("얼럿 3이 선택되었습니다.")
-        }
-        
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { _ in
-            print("취소가 선택되었습니다.")
-        }
-        
-        alertController.addAction(alert1Action)
-        alertController.addAction(alert2Action)
-        alertController.addAction(alert3Action)
-        alertController.addAction(cancelAction)
-         
-        present(alertController, animated: true, completion: nil)
     }
 }
  
