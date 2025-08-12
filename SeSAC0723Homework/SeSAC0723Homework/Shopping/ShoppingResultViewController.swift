@@ -8,35 +8,7 @@
 import UIKit
 import SnapKit
 
-enum SortType: String, CaseIterable {
-    case sim = "정확도"
-    case date = "날짜순"
-    case asc = "가격낮은순"
-    
-    var apiParameter: String {
-        switch self {
-        case .sim: return "sim"
-        case .date: return "date"
-        case .asc: return "asc"
-        }
-    }
-}
-
-class ShoppingResultViewController: UIViewController {
-    
-    var query: String = ""
-    
-    private var items: [ShoppingItem] = []
-    private var selectedSort: SortType = .sim
-    
-    //추천 아이템 관련 프로퍼티
-    private var recommendedItems: [ShoppingItem] = []
-    
-    // 페이지네이션 관련 프로퍼티
-    private var page = 1
-    private var isLoading = false //중복 로딩 방지
-    private var hasMoreData = true // 마지막 페이지 여부
-    private let displayCount = 30
+final class ShoppingResultViewController: UIViewController {
     
     private let totalLabel = UILabel()
     private let sortStackView = UIStackView()
@@ -65,20 +37,55 @@ class ShoppingResultViewController: UIViewController {
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
+    private let viewModel: ShoppingResultViewModel<NetworkShoppingRepository>
+    
+    init(query: String) {
+        self.viewModel = ShoppingResultViewModel(query: query, repo: NetworkShoppingRepository())
+        super.init(nibName: nil, bundle: nil)
+    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .black
-        title = query
-        
-        // 타이틀 색상 흰색으로 설정
         navigationController?.navigationBar.titleTextAttributes = [
             .foregroundColor: UIColor.white
         ]
         
         setupUI()
-        fetchShoppingData(reset: true)
-        fetchRecommendedItems() //추천 아이템 fetch
+        bindViewModel()
+        viewModel.refresh()
+        viewModel.loadRecommended()
+    }
+    
+    private func bindViewModel() {
+        print(#function)
+        viewModel.titleText.bind { [weak self] in
+            self?.title = self?.viewModel.titleText.value
+        }
+        viewModel.totalText.bind { [weak self] in
+            self?.totalLabel.text = self?.viewModel.totalText.value
+        }
+        viewModel.items.lazyBind { [weak self] in
+            self?.collectionView.reloadData()
+        }
+        viewModel.recommended.lazyBind { [weak self] in
+            self?.recommendCollectionView.reloadData()
+        }
+        viewModel.selectedSort.bind { [weak self] in
+            guard let self = self else { return }
+            for (idx, view) in self.sortStackView.arrangedSubviews.enumerated() {
+                guard let button = view as? UIButton else { continue }
+                let isSelected = SortType.allCases[idx] == self.viewModel.selectedSort.value
+                button.setTitleColor(isSelected ? .black : .white, for: .normal)
+                button.backgroundColor = isSelected ? .white : .black
+            }
+        }
+        viewModel.errorMessage.lazyBind { [weak self] in
+            guard let self = self, let msg = self.viewModel.errorMessage.value else { return }
+            self.showAlert(title: "안내", message: msg)
+        }
     }
     
     private func setupUI() {
@@ -97,7 +104,6 @@ class ShoppingResultViewController: UIViewController {
         sortStackView.axis = .horizontal
         sortStackView.spacing = 8
         sortStackView.distribution = .fillEqually
-        view.addSubview(sortStackView)
         
         sortStackView.snp.makeConstraints { make in
             make.top.equalTo(totalLabel.snp.bottom).offset(8)
@@ -115,10 +121,6 @@ class ShoppingResultViewController: UIViewController {
             button.tag = index
             button.addTarget(self, action: #selector(sortButtonTapped(_:)), for: .touchUpInside)
             
-            let isSelected = sort == selectedSort
-            button.setTitleColor(isSelected ? .black : .white, for: .normal)
-            button.backgroundColor = isSelected ? .white : .black
-            
             sortStackView.addArrangedSubview(button)
         }
         
@@ -128,18 +130,16 @@ class ShoppingResultViewController: UIViewController {
             forCellWithReuseIdentifier: ShoppingResultCollectionViewCell.identifier
         )
         collectionView.dataSource = self
-        collectionView.delegate = self
         
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(sortStackView.snp.bottom).offset(4)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(recommendCollectionView.snp.top).offset(-8)
         }
         
         recommendCollectionView.backgroundColor = .white
         recommendCollectionView.register(ShoppingResultCollectionViewCell.self, forCellWithReuseIdentifier: ShoppingResultCollectionViewCell.identifier)
         recommendCollectionView.dataSource = self
-        recommendCollectionView.delegate = self
         recommendCollectionView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(8)
@@ -148,114 +148,29 @@ class ShoppingResultViewController: UIViewController {
     }
     
     @objc private func sortButtonTapped(_ sender: UIButton) {
-        let index = sender.tag
-        let newSort = SortType.allCases[index]
-        selectedSort = newSort
-        
-        for (idx, view) in sortStackView.arrangedSubviews.enumerated() {
-            guard let button = view as? UIButton else { continue }
-            let isSelected = idx == index
-            button.setTitleColor(isSelected ? .black : .white, for: .normal)
-            button.backgroundColor = isSelected ? .white : .black
-        }
-        
-        fetchShoppingData(reset: true)
-    }
-    
-    private func fetchShoppingData(reset: Bool = false) {
-        if reset {
-            page = 1
-            items = []
-            hasMoreData = true
-            collectionView.reloadData()
-        }
-        guard !isLoading, hasMoreData else { return }
-        isLoading = true
-        
-        let start = (page - 1) * displayCount + 1
-        
-        // 1000건 제한 로직 (네이버 API 정책 때문에 최대 검색 수 제한있음)
-        if start > 1000 {
-            isLoading = false
-            hasMoreData = false
-            showAlert(title: "안내", message: "네이버 API 정책상 1000건 이후는 조회할 수 없습니다.")
-            return
-        }
-        
-        NetworkManager.shared.fetchShoppingItems(
-            query: query,
-            sort: selectedSort.apiParameter,
-            start: start,
-            display: displayCount
-        ) { result in
-            self.isLoading = false
-            switch result {
-            case .success(let data):
-                self.totalLabel.text = "\(data.total.formatted())개의 검색 결과"
-                if reset {
-                    self.items = data.items
-                } else {
-                    self.items.append(contentsOf: data.items)
-                }
-                self.collectionView.reloadData()
-                self.page += 1
-                
-                if (start + data.items.count - 1) >= data.total {
-                    self.hasMoreData = false
-                }
-            case .failure:
-                self.showAlert(title: "오류", message: "데이터를 불러오지 못했습니다.")
-            }
-        }
-    }
-    
-    private func fetchRecommendedItems() {
-        NetworkManager.shared.fetchRecommendedItems { result in
-            switch result {
-            case .success(let data):
-                self.recommendedItems = data.items
-                self.recommendCollectionView.reloadData()
-            case .failure:
-                self.showAlert(title: "오류", message: "데이터를 불러오지 못했습니다.")
-            }
-        }
+        let newSort = SortType.allCases[sender.tag]
+        viewModel.changeSort(newSort)
     }
 }
 
 extension ShoppingResultViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == self.collectionView {
-            return items.count
+        if collectionView === self.collectionView {
+            return viewModel.items.value.count
         } else {
-            return recommendedItems.count
+            return viewModel.recommended.value.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ShoppingResultCollectionViewCell.identifier,
-            for: indexPath
-        ) as? ShoppingResultCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShoppingResultCollectionViewCell.identifier, for: indexPath) as? ShoppingResultCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
-        if collectionView == self.collectionView {
-            cell.configure(with: items[indexPath.item])
+        if collectionView === self.collectionView {
+            cell.configure(with: viewModel.items.value[indexPath.item])
         } else {
-            cell.configure(with: recommendedItems[indexPath.item])
+            cell.configure(with: viewModel.recommended.value[indexPath.item])
         }
-        
         return cell
-    }
-}
-
-extension ShoppingResultViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard collectionView == self.collectionView else { return }
-        guard !isLoading, hasMoreData else { return }
-        
-        if indexPath.item == items.count - 1 {
-            fetchShoppingData()
-        }
     }
 }
