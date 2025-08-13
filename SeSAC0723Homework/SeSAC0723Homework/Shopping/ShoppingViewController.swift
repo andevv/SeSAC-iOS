@@ -13,6 +13,10 @@ final class ShoppingViewController: UIViewController {
     let searchBar = UISearchBar()
     private let viewModel = ShoppingViewModel()
     
+    private let searchText = Observable<String?>(nil)
+    private let searchTap = Observable<Void?>(nil)
+    private var output: ShoppingViewModel.Output!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,7 +26,12 @@ final class ShoppingViewController: UIViewController {
         ]
         title = "쇼핑하기"
         configureSearchBar()
-        bindViewModel()
+        
+        // transform
+        let input = ShoppingViewModel.Input(searchText: searchText, searchTap: searchTap)
+        output = viewModel.transform(input)
+
+        bindOutput()
     }
     
     func configureSearchBar() {
@@ -43,13 +52,13 @@ final class ShoppingViewController: UIViewController {
     }
     
     // 바인딩 시점에 실행되면 안되기 때문에 lazy
-    private func bindViewModel() {
-        viewModel.alertMessage.lazyBind { [weak self] in
-            guard let msg = self?.viewModel.alertMessage.value, let self = self, !msg.isEmpty else { return }
+    private func bindOutput() {
+        output.alertMessage.lazyBind { [weak self] in
+            guard let self = self, let msg = self.output.alertMessage.value, !msg.isEmpty else { return }
             self.showAlert(title: "검색어 오류", message: msg) { self.searchBar.text = "" }
         }
-        viewModel.navigateQuery.lazyBind { [weak self] in
-            guard let q = self?.viewModel.navigateQuery.value, let self = self else { return }
+        output.navigateQuery.lazyBind { [weak self] in
+            guard let self = self, let q = self.output.navigateQuery.value else { return }
             let vc = ShoppingResultViewController(query: q)
             self.navigationController?.pushViewController(vc, animated: true)
         }
@@ -59,7 +68,8 @@ final class ShoppingViewController: UIViewController {
 extension ShoppingViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        viewModel.submit(searchBar.text) //VM에 값 전달
+        searchText.value = searchBar.text
+        searchTap.value = ()
     }
 }
 

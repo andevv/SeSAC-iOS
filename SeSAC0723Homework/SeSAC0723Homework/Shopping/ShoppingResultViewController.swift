@@ -37,10 +37,14 @@ final class ShoppingResultViewController: UIViewController {
         return UICollectionView(frame: .zero, collectionViewLayout: layout)
     }()
     
-    private let viewModel: ShoppingResultViewModel<NetworkShoppingRepository>
+    private let viewModel: ShoppingResultViewModel
+    private let refreshTrigger = Observable<Void?>(nil)
+    private let changeSortTrigger = Observable<SortType?>(nil)
+    private let loadRecommendedTrigger = Observable<Void?>(nil)
+    private var output: ShoppingResultViewModel.Output!
     
     init(query: String) {
-        self.viewModel = ShoppingResultViewModel(query: query, repo: NetworkShoppingRepository())
+        self.viewModel = ShoppingResultViewModel(query: query)
         super.init(nibName: nil, bundle: nil)
     }
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -54,36 +58,47 @@ final class ShoppingResultViewController: UIViewController {
         ]
         
         setupUI()
-        bindViewModel()
-        viewModel.refresh()
-        viewModel.loadRecommended()
+        
+        // transform
+        let input: ShoppingResultViewModel.Input = .init(
+            refresh: refreshTrigger,
+            changeSort: changeSortTrigger,
+            loadRecommended: loadRecommendedTrigger
+        )
+        output = viewModel.transform(input)
+        
+        bindOutput()
+        
+        // 최초 로드
+        refreshTrigger.value = ()
+        loadRecommendedTrigger.value = ()
+        
     }
     
-    private func bindViewModel() {
-        print(#function)
-        viewModel.titleText.bind { [weak self] in
-            self?.title = self?.viewModel.titleText.value
+    private func bindOutput() {
+        output.titleText.bind { [weak self] in
+            self?.title = self?.output.titleText.value
         }
-        viewModel.totalText.bind { [weak self] in
-            self?.totalLabel.text = self?.viewModel.totalText.value
+        output.totalText.bind { [weak self] in
+            self?.totalLabel.text = self?.output.totalText.value
         }
-        viewModel.items.lazyBind { [weak self] in
+        output.items.lazyBind { [weak self] in
             self?.collectionView.reloadData()
         }
-        viewModel.recommended.lazyBind { [weak self] in
+        output.recommended.lazyBind { [weak self] in
             self?.recommendCollectionView.reloadData()
         }
-        viewModel.selectedSort.bind { [weak self] in
+        output.selectedSort.bind { [weak self] in
             guard let self = self else { return }
             for (idx, view) in self.sortStackView.arrangedSubviews.enumerated() {
                 guard let button = view as? UIButton else { continue }
-                let isSelected = SortType.allCases[idx] == self.viewModel.selectedSort.value
+                let isSelected = SortType.allCases[idx] == self.output.selectedSort.value
                 button.setTitleColor(isSelected ? .black : .white, for: .normal)
                 button.backgroundColor = isSelected ? .white : .black
             }
         }
-        viewModel.errorMessage.lazyBind { [weak self] in
-            guard let self = self, let msg = self.viewModel.errorMessage.value else { return }
+        output.errorMessage.lazyBind { [weak self] in
+            guard let self = self, let msg = self.output.errorMessage.value else { return }
             self.showAlert(title: "안내", message: msg)
         }
     }
@@ -149,16 +164,16 @@ final class ShoppingResultViewController: UIViewController {
     
     @objc private func sortButtonTapped(_ sender: UIButton) {
         let newSort = SortType.allCases[sender.tag]
-        viewModel.changeSort(newSort)
+        changeSortTrigger.value = newSort
     }
 }
 
 extension ShoppingResultViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView === self.collectionView {
-            return viewModel.items.value.count
+            return output.items.value.count
         } else {
-            return viewModel.recommended.value.count
+            return output.recommended.value.count
         }
     }
     
@@ -167,9 +182,9 @@ extension ShoppingResultViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         if collectionView === self.collectionView {
-            cell.configure(with: viewModel.items.value[indexPath.item])
+            cell.configure(with: output.items.value[indexPath.item])
         } else {
-            cell.configure(with: viewModel.recommended.value[indexPath.item])
+            cell.configure(with: output.recommended.value[indexPath.item])
         }
         return cell
     }
