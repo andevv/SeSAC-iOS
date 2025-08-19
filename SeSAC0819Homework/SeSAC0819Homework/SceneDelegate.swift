@@ -1,8 +1,8 @@
 //
 //  SceneDelegate.swift
-//  SeSAC0813Homework
+//  SeSAC0819Homework
 //
-//  Created by andev on 8/13/25.
+//  Created by andev on 8/19/25.
 //
 
 import UIKit
@@ -10,13 +10,16 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+ 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        guard let scene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(windowScene: scene)
         
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = UINavigationController(rootViewController: OnboardingViewController())
+        let rootViewController = UINavigationController(rootViewController: SimpleTableViewExampleViewController())
+         
+        window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
+
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
