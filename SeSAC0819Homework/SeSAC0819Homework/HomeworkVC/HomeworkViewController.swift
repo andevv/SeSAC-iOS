@@ -98,6 +98,15 @@ class HomeworkViewController: UIViewController {
                 cell.usernameLabel.text = element.name
                 cell.profileImageView.image = UIImage(systemName: "person.fill")
                 cell.detailButton.setTitle("더보기", for: .normal)
+                
+                // 상세 화면 push
+                cell.detailButton.rx.tap
+                    .subscribe(with: self) { owner, _ in
+                        let vc = PersonDetailViewController(person: element)
+                        owner.navigationController?.pushViewController(vc, animated: true)
+                    }
+                    .disposed(by: cell.disposeBag) //구독 중첩 방지
+
                 return cell
             }
             .disposed(by: disposeBag)

@@ -7,10 +7,13 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 final class PersonTableViewCell: UITableViewCell {
     
     static let identifier = "PersonTableViewCell"
+    
+    var disposeBag = DisposeBag() //구독 중첩 방지
     
     let usernameLabel: UILabel = {
         let label = UILabel()
@@ -47,6 +50,12 @@ final class PersonTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        disposeBag = DisposeBag() //구독 중첩 방지
     }
      
     
