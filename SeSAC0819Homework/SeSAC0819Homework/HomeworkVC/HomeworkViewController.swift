@@ -21,8 +21,8 @@ class HomeworkViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     
-    private let users = BehaviorSubject<[Person]>(value: []) // 테이블뷰에 들어갈 데이터
-    private let selectedNames = BehaviorSubject<[String]>(value: []) // 컬렉션뷰에 들어갈 데이터
+    private lazy var users = BehaviorSubject<[Person]>(value: sampleUsers)
+    private let selectedNames = BehaviorSubject<[String]>(value: [])
     
     let sampleUsers: [Person] = [
         Person(name: "Steven", email: "steven.brown@example.com", profileImage: "https://randomuser.me/api/portraits/thumb/men/1.jpg"),
@@ -85,8 +85,6 @@ class HomeworkViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-        
-        users.onNext(sampleUsers) // 초기 데이터 주입
         bind()
     }
     
