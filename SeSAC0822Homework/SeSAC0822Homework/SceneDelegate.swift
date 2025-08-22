@@ -11,14 +11,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         
-        let rootViewController = UINavigationController(rootViewController: TamagotchiSelectViewController())
+        let rootVC: UIViewController
+        if let id = TamagotchiStorage.shared.selectedID,
+           let tg = TamagotchiCatalog.find(by: id) {
+            // 선택되어 있으면 -> 메인
+            rootVC = UINavigationController(rootViewController: TamagotchiMainViewController(
+                viewModel: TamagotchiMainViewModel(tamagotchi: tg)
+            ))
+        } else {
+            // 아니면 -> 선택 화면
+            rootVC = UINavigationController(rootViewController: TamagotchiSelectViewController())
+        }
          
-        window?.rootViewController = rootViewController
+        window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
 
     }

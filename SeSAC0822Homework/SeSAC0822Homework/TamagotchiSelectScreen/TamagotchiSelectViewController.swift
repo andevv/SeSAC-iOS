@@ -97,7 +97,14 @@ final class TamagotchiSelectViewController: UIViewController, UICollectionViewDe
         let vc = TamagotchiDetailPopupViewController(viewModel: vm)
         vc.modalPresentationStyle = .overCurrentContext
         vc.modalTransitionStyle = .crossDissolve
-        present(vc, animated: true)
+        vc.onStart = { [weak self] tg in
+                // 저장
+                TamagotchiStorage.shared.select(tg)
+                // 메인으로 전환
+                let main = TamagotchiMainViewController(viewModel: TamagotchiMainViewModel(tamagotchi: tg))
+                self?.navigationController?.setViewControllers([main], animated: true)
+            }
+            present(vc, animated: false)
     }
     
     // MARK: Layout

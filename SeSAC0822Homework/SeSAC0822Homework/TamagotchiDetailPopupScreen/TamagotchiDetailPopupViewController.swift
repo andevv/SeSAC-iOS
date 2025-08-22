@@ -14,6 +14,8 @@ final class TamagotchiDetailPopupViewController: UIViewController {
 
     private let disposeBag = DisposeBag()
     private let viewModel: TamagotchiDetailPopupViewModel
+    
+    var onStart: ((Tamagotchi) -> Void)?
 
     // 전체뷰
     private let dimView: UIView = {
@@ -122,6 +124,7 @@ final class TamagotchiDetailPopupViewController: UIViewController {
         UIView.animate(withDuration: 0.05) { self.dimView.alpha = 1.0 }
     }
 
+    // MARK: - Bind
     private func bind() {
         let input = TamagotchiDetailPopupViewModel.Input(
             cancelTap: cancelButton.rx.tap.asObservable(),
@@ -146,8 +149,8 @@ final class TamagotchiDetailPopupViewController: UIViewController {
 
         output.start
             .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] _ in
-                // TODO: 메인화면으로 전환 로직 추가 예정
+            .subscribe(onNext: { [weak self] selected in
+                self?.onStart?(selected)
                 self?.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
