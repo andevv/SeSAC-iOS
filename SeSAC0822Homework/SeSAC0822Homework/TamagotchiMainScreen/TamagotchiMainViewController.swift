@@ -205,6 +205,13 @@ final class TamagotchiMainViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] in self?.drinkField.text = nil })
             .disposed(by: disposeBag)
+        
+        settingsItem.rx.tap
+            .subscribe(onNext: { [weak self] in
+                let vc = SettingsViewController(viewModel: SettingsViewModel())
+                self?.navigationController?.pushViewController(vc, animated: true)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - UI
