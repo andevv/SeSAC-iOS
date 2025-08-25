@@ -53,6 +53,12 @@ final class TamagotchiSelectViewController: UIViewController, UICollectionViewDe
         layout.itemSize = CGSize(width: itemSide, height: itemSide + 44) // 이미지 + 라벨
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.tabBarItem.title = "다마고치"
+        navigationController?.tabBarItem.image = UIImage(systemName: "face.smiling")
+    }
+    
     // MARK: Bind
     private func bind() {
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
