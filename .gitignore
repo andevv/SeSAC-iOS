@@ -50,3 +50,5 @@ playground.xcworkspace/
 
 # Xcode Preview support
 *.icloud
+
+APIKeys.swift
