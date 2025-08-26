@@ -9,17 +9,6 @@ import Foundation
 import RxSwift
 import Alamofire
 
-struct Lotto: Decodable {
-    let drwNoDate: String
-    let drwtNo1: Int
-    let drwtNo2: Int
-    let drwtNo3: Int
-    let drwtNo4: Int
-    let drwtNo5: Int
-    let drwtNo6: Int
-    let bnusNo: Int
-}
-
 final class CustomObservable {
     
     static func getLotto(query: String) -> Observable<Lotto> {
@@ -41,6 +30,37 @@ final class CustomObservable {
                 }
             }
             return Disposables.create()
+        }
+    }
+}
+
+final class LottoService {
+    static let shared = LottoService()
+    private init() {}
+
+    // 실패도 error 이벤트로 던지지 않고 success(Result.failure)로 래핑
+    func fetch(draw: Int) -> Single<Result<Lotto, LottoError>> {
+        Single<Result<Lotto, LottoError>>.create { single in
+            let url = "https://www.dhlottery.co.kr/common.do"
+            let params: Parameters = ["method": "getLottoNumber", "drwNo": draw]
+
+            let req = AF.request(url, parameters: params)
+                .validate()
+                .responseDecodable(of: Lotto.self) { response in
+                    switch response.result {
+                    case .success(let lotto):
+                        single(.success(.success(lotto)))
+                    case .failure(let afError):
+                        if case .responseSerializationFailed(let reason) = afError,
+                           case .decodingFailed = reason {
+                            single(.success(.failure(.decoding)))
+                        } else {
+                            single(.success(.failure(.network(afError.localizedDescription))))
+                        }
+                    }
+                }
+
+            return Disposables.create { req.cancel() }
         }
     }
 }

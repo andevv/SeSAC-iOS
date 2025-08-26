@@ -13,6 +13,7 @@ import RxCocoa
 final class BoxOfficeViewController: UIViewController {
 
     private let disposeBag = DisposeBag()
+    private lazy var viewModel = BoxOfficeViewModel(apiKey: movieAPIKey)
 
     // UI
     private let tableView = UITableView()
@@ -48,33 +49,55 @@ final class BoxOfficeViewController: UIViewController {
         searchBar.rx.searchButtonClicked
             .bind(with: self) { owner, _ in owner.searchBar.resignFirstResponder() }
             .disposed(by: disposeBag)
+        
+        let input = BoxOfficeViewModel.Input(
+            searchTap: searchBar.rx.searchButtonClicked,
+            queryText: searchBar.rx.text.orEmpty
+        )
+        let output = viewModel.transform(input: input)
 
-        let titles: Driver<[String]> = searchBar.rx.searchButtonClicked
-            .withLatestFrom(searchBar.rx.text.orEmpty)
-            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-            .filter { Self.isValidDate($0) }
-            .distinctUntilChanged()
-            .flatMapLatest { date in
-                CustomObservable.getBoxOffice(date: date, apiKey: movieAPIKey)
-                    .map { list -> [String] in
-                        let rows = list.map { "\($0.rank). \($0.movieNm)" }
-                        return rows.isEmpty ? ["해당 날짜 결과 없음"] : rows
-                    }
-                    .catchAndReturn(["검색 실패"]) // 에러 시 스트림 유지
-            }
-            .asDriver(onErrorJustReturn: ["검색 실패"])
-
-        titles
+        output.titles
             .drive(tableView.rx.items(cellIdentifier: "cell",
                                       cellType: UITableViewCell.self)) { _, title, cell in
                 cell.textLabel?.text = title
                 cell.textLabel?.numberOfLines = 0
             }
             .disposed(by: disposeBag)
-    }
 
-    private static func isValidDate(_ s: String) -> Bool {
-        // 간단 검증: 8자리 숫자
-        s.range(of: #"^\d{8}$"#, options: .regularExpression) != nil
+        output.showToast
+            .bind(onNext: { [weak self] _ in
+                self?.showToast("네트워크 통신에 실패했습니다.")
+            })
+            .disposed(by: disposeBag)
+    }
+}
+
+private extension UIViewController {
+    func showToast(_ message: String, duration: TimeInterval = 2.0) {
+        let label = PaddingLabel()
+        label.text = message
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.textColor = .white
+        label.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        label.layer.cornerRadius = 12
+        label.layer.masksToBounds = true
+        label.alpha = 0
+
+        view.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 24),
+            label.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -24),
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            label.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32)
+        ])
+
+        UIView.animate(withDuration: 0.25, animations: { label.alpha = 1 }) { _ in
+            UIView.animate(withDuration: 0.25, delay: duration, options: [], animations: {
+                label.alpha = 0
+            }, completion: { _ in label.removeFromSuperview() })
+        }
     }
 }

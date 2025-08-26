@@ -13,6 +13,7 @@ import RxCocoa
 final class LottoViewController: UIViewController {
 
     private let disposeBag = DisposeBag()
+    private let viewModel = LottoViewModel()
 
     // MARK: - UI
     private let inputField: UITextField = {
@@ -52,25 +53,20 @@ final class LottoViewController: UIViewController {
 
     // MARK: - Bind
     private func bind() {
-        let lottoText = inputField.rx.controlEvent(.editingDidEndOnExit)
-            .withLatestFrom(inputField.rx.text.orEmpty)
-            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-            .filter { !$0.isEmpty && Int($0) != nil } //숫자 검증
-            .distinctUntilChanged()
-            .flatMapLatest { query in
-                CustomObservable.getLotto(query: query)
-                    .map { lotto in
-                        let nums = [lotto.drwtNo1, lotto.drwtNo2, lotto.drwtNo3,
-                                    lotto.drwtNo4, lotto.drwtNo5, lotto.drwtNo6]
-                        return nums.map(String.init).joined(separator: "  ") + "  +  \(lotto.bnusNo)"
-                    }
-                    .catchAndReturn("회차를 다시 확인해주세요.") //에러 시 스트림 유지할 수 있도록
-            }
-            .observe(on: MainScheduler.instance)
+        let input = LottoViewModel.Input(
+            searchTap: inputField.rx.controlEvent(.editingDidEndOnExit),
+            queryText: inputField.rx.text.orEmpty
+        )
+        let output = viewModel.transform(input: input)
 
-        // 결과 바인딩
-        lottoText
-            .bind(to: resultLabel.rx.text)
+        output.resultText
+            .drive(resultLabel.rx.text)
+            .disposed(by: disposeBag)
+
+        output.showToast
+            .bind(onNext: { [weak self] _ in
+                self?.showToast("네트워크 통신에 실패했습니다.")
+            })
             .disposed(by: disposeBag)
     }
 
@@ -90,5 +86,45 @@ final class LottoViewController: UIViewController {
 
         [inputField, resultLabel].forEach { stack.addArrangedSubview($0) }
         inputField.snp.makeConstraints { $0.height.equalTo(44) }
+    }
+}
+
+private extension UIViewController {
+    func showToast(_ message: String, duration: TimeInterval = 2.0) {
+        let label = PaddingLabel()
+        label.text = message
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 14, weight: .medium)
+        label.textColor = .white
+        label.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        label.layer.cornerRadius = 12
+        label.layer.masksToBounds = true
+        label.alpha = 0
+
+        view.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 24),
+            label.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -24),
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            label.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32)
+        ])
+
+        UIView.animate(withDuration: 0.25, animations: { label.alpha = 1 }) { _ in
+            UIView.animate(withDuration: 0.25, delay: duration, options: [], animations: {
+                label.alpha = 0
+            }, completion: { _ in label.removeFromSuperview() })
+        }
+    }
+}
+
+final class PaddingLabel: UILabel {
+    var inset = UIEdgeInsets(top: 10, left: 14, bottom: 10, right: 14)
+    override func drawText(in rect: CGRect) { super.drawText(in: rect.inset(by: inset)) }
+    override var intrinsicContentSize: CGSize {
+        let s = super.intrinsicContentSize
+        return CGSize(width: s.width + inset.left + inset.right,
+                      height: s.height + inset.top + inset.bottom)
     }
 }
