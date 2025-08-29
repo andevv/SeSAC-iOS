@@ -16,7 +16,6 @@ enum TamagotchiCatalog {
     ]
 
     static func find(by id: Int) -> Tamagotchi? {
-        // 선택 불가 슬롯은 필요 시 추가 가능. 현재는 3종만 복원.
         return available.first { $0.id == id }
     }
 }

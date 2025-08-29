@@ -111,3 +111,31 @@
 ### 07.31.
 * 역 값전달
 * Dispatch Group
+
+### 08.01.
+* CollectionView Paging
+* Enum, RawValue, Computed Property 활용
+
+### 08.04.
+* UINavigation/TabBarAppearance - scrollEdge, standard
+* Adaptive Layout Size Class
+* ReusableView Protocol / UIButton Configuration
+* Type Casting
+
+### 08.05.
+* Custom Font
+* ScrollView - Zoom, Horizontal, Vertical
+* Asset Slicing
+
+### 08.06.
+* Swift Optimization (final, private)
+
+### 08.07.
+* Generic
+* Error Handling
+* DecodingStrategy
+
+### 08.08.
+* MVVM vs MVC
+* Property Observer - didSet
+* Closure를 활용한 MVVM 로직 구성
