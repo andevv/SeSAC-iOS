@@ -139,3 +139,17 @@
 * MVVM vs MVC
 * Property Observer - didSet
 * Closure를 활용한 MVVM 로직 구성
+
+### 08.11.
+* didSet/Closure/Generic
+* Custom Observable
+
+### 08.12.
+* MVVM + Custom Observable
+* lazybind vs bind
+* viewModel 간 값 전달
+
+### 08.13.
+* MVVM + Input/Output Pattern
+* Router Pattern
+* Generic + Meta Type
