@@ -153,3 +153,13 @@
 * MVVM + Input/Output Pattern
 * Router Pattern
 * Generic + Meta Type
+
+### 08.18.
+* HTTP Status Code 대응
+* 실패 JSON 대응
+* RxSwift: Asynchronous/Observable Streams
+
+### 08.19.
+* Observable vs Observer
+* Subscribe vs Bind
+* Operator
