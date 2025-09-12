@@ -163,3 +163,17 @@
 * Observable vs Observer
 * Subscribe vs Bind
 * Operator
+
+### 08.20.
+* DisposeBag
+* Subject
+
+### 08.21.
+* map, withLastestFrom, withUnretained
+* 셀 구독 중첩 이슈 핸들링
+* Subject vs Relay
+
+### 08.22.
+* Subscribe vs Bind vs Drive
+* Observable vs Subject vs Relay
+* multicast vs unicast
