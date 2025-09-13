@@ -177,3 +177,16 @@
 * Subscribe vs Bind vs Drive
 * Observable vs Subject vs Relay
 * multicast vs unicast
+
+### 08.25.
+* create()를 통해 Custom Observable 생성
+* map vs flatMap
+
+### 08.26.
+* RxSwift Error Handling: retry, catch, catchAndReturn
+* RxSwift Error Handling: Result Type 활용 error stream 받지 않도록 구현
+* Observable vs Single
+
+### 08.27.
+* RxSwift를 활용한 Input/Output 타입 정의 및 고려한 부분(Thread)
+* init을 활용한 viewModel간 값 전달
