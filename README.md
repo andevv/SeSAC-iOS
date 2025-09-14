@@ -190,3 +190,13 @@
 ### 08.27.
 * RxSwift를 활용한 Input/Output 타입 정의 및 고려한 부분(Thread)
 * init을 활용한 viewModel간 값 전달
+
+### 08.28.
+* RxDataSources
+* Animations
+* SceneDelegate UIWindow
+* LLDB(BreakPoint, watchPoint)
+
+### 09.03.
+* Local Notification
+* Foreground 제어 및 UserInfo 활용
