@@ -200,3 +200,8 @@
 ### 09.03.
 * Local Notification
 * Foreground 제어 및 UserInfo 활용
+
+### 09.04.
+* I18N vs L10N / String Catalog
+* Localization.strings(Storyboard, Codebase)
+* InfoPlist.strings
