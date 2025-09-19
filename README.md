@@ -205,3 +205,13 @@
 * I18N vs L10N / String Catalog
 * Localization.strings(Storyboard, Codebase)
 * InfoPlist.strings
+
+### 09.08.
+* UIPageViewController
+* Unfrozen/Frozen Enumeration
+* discardableResult
+
+### 09.09.
+* Privacy, Authorization
+* CoreLocation
+* UIImagePickerController
