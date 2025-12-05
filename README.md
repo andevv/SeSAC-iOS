@@ -215,3 +215,12 @@
 * Privacy, Authorization
 * CoreLocation
 * UIImagePickerController
+
+### 09.10.
+* PHPickerViewController
+* URLSession
+
+### 09.11.
+* URLSession + Delegate
+* List Configuration
+* Modern Collection Views
